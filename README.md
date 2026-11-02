@@ -2,7 +2,7 @@
 
 # Anasztázia Karalyos-Kecskés · Portfolio
 
-**Junior web application developer**: I build web apps with Python, Django and JavaScript, from the database model to a deployed, tested app.
+**Junior Web Application Developer**: I build web apps with Python, Django and JavaScript, from the database model to a deployed, tested app.
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
 ![Django](https://img.shields.io/badge/Django-092E20?style=flat&logo=django&logoColor=white)
@@ -11,6 +11,9 @@
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat&logo=firebase&logoColor=black)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
+
+![Code Institute](https://img.shields.io/badge/Code_Institute-Level_5_Diploma-6C3483?style=flat)
+![South Staffordshire College](https://img.shields.io/badge/South_Staffordshire_College-student-1F618D?style=flat)
 
 [Skills](#-skills) · [Case studies](#-case-studies) · [Other projects](#-other-projects) · [Project structure](#-project-structure) · [Run locally](#-run-locally) · [Contact](#-contact)
 
@@ -21,6 +24,10 @@
 ## 📌 About
 
 A portfolio and CV for junior web developer roles. The home page covers my profile and skills, short project cards, how I work, my experience and my education. Each main project has its own case study page, and the CV can be downloaded as a PDF.
+
+🎓 **Currently studying:** Level 5 Diploma in Web Application Development at **South Staffordshire College** and **Code Institute** *(expected 2027)*
+
+💼 **Freelance:** web developer under the name [Amethyst Nexalune](https://www.amethyst-nexalune.co.uk) since August 2026, building websites, web apps and small business systems for clients in the UK and Hungary
 
 ## 🧰 Skills
 
@@ -81,9 +88,9 @@ Every case study follows the same structure:
 
 | Project | What it does | Links |
 | --- | --- | --- |
-| **LaunchTrack LMS** | Staff training: 11 modules that unlock in order, quizzes with a 90% pass mark, PDF certificates | [Demo](https://lms-demo-w8lj.onrender.com) · [Code](https://github.com/Anasztazia12/lms-demo) |
-| **Quote Tracker** | Quotes, follow-up dates and statuses in one place, with reminders and one-click acceptance | [Demo](https://quote-demo.onrender.com) · [Code](https://github.com/Anasztazia12/quote-demo) |
-| **Rental Tracker** | Tracks equipment out and due back, calculates fees and deposits, signed handovers | [Demo](https://rental-demo.onrender.com) · [Code](https://github.com/Anasztazia12/rental-demo) |
+| **LaunchTrack LMS** | Staff training: 11 modules that unlock in order, quizzes with a 90% pass mark, PDF certificates | [Demo](https://lms-demo-w8lj.onrender.com) |
+| **Quote Tracker** | Quotes, follow-up dates and statuses in one place, with reminders and one-click acceptance | [Demo](https://quote-demo.onrender.com) |
+| **Rental Tracker** | Tracks equipment out and due back, calculates fees and deposits, signed handovers | [Demo](https://rental-demo.onrender.com) |
 | **Fishing Logbook** | Offline-first catch log with photos, synced to Supabase, with accounts and password reset | [Demo](https://fishing-logbook.amethyst-nexalune.co.uk/) · [Code](https://github.com/Anasztazia12/fishing-logbook) |
 | **Maths Challenge** | Timed maths game for children aged 8–9, with progress tracking and avatars | [Demo](https://maths-challenge.amethyst-nexalune.co.uk/) · [Code](https://github.com/Anasztazia12/Maths-Challenge) |
 
