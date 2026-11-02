@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anasztázia Karalyos-Kecskés | Web Application Developer</title>
+    <meta name="description" content="Portfolio and CV of Anasztázia Karalyos-Kecskés, junior web application developer working with Python, Django, JavaScript, PostgreSQL and Firebase.">
+    <link rel="icon" href="assets/images/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/images/favicon180.png">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <img class="photo" src="assets/images/profile.webp" alt="Anasztázia Karalyos-Kecskés" width="120" height="120">
+        <h1>Anasztázia Karalyos-Kecskés</h1>
+        <p class="role">Web Application Developer</p>
+        <p class="status">Looking for a junior web developer role. Based in the UK.</p>
+
+        <nav>
+            <ul class="menu">
+                <li><a href="#profile">Profile</a></li>
+                <li><a href="#projects">Case studies</a></li>
+                <li><a href="#how-i-work">How I work</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#education">Education</a></li>
+            </ul>
+        </nav>
+
+        <p class="side-title">Contact</p>
+        <ul class="contact">
+            <li><a href="mailto:kecskes.anasztazia@gmail.com">kecskes.anasztazia@gmail.com</a></li>
+            <li><a href="tel:+447564040783">+44 7564 040783</a></li>
+            <li><a href="https://github.com/Anasztazia12" target="_blank" rel="noopener">github.com/Anasztazia12</a></li>
+            <li><a href="https://www.amethyst-nexalune.co.uk" target="_blank" rel="noopener">amethyst-nexalune.co.uk</a></li>
+        </ul>
+
+        <a class="cv-button" href="assets/pdf/CV_Anasztazia_Karalyos-Kecskes.pdf" download>Download CV (PDF)</a>
+    </aside>
+
+    <!-- Main content -->
+    <main class="content">
+
+        <!-- Profile -->
+        <section class="block" id="profile">
+            <h2>Profile</h2>
+            <p class="lead">I build web applications with Python, Django and JavaScript, from the database model to a deployed, tested app.</p>
+            <p>I am studying for a Level 5 Diploma in Web Application Development (South Staffordshire College and Code Institute, expected 2027). Since August 2026 I have also worked as a freelance developer under the name Amethyst Nexalune, building websites, web apps and small business systems for clients in the UK and Hungary.</p>
+            <p>Before moving into tech I spent nine years as a pharmacy assistant and several years in education and care. That work taught me to check details carefully and to think about the people who will use what I build.</p>
+
+            <table class="skills">
+                <tr><th>Backend</th><td>Python, Django, Node.js, REST APIs, C# (learning)</td></tr>
+                <tr><th>Frontend</th><td>JavaScript (ES6+), HTML, CSS, Bootstrap, Chart.js, Leaflet, Babylon.js</td></tr>
+                <tr><th>Data</th><td>PostgreSQL, SQLite, MySQL, Firebase (Auth, Firestore, Cloud Functions), Supabase</td></tr>
+                <tr><th>Testing</th><td>Django TestCase, Jest, Playwright, manual testing, W3C validation</td></tr>
+                <tr><th>Tools</th><td>Git and GitHub, Heroku, Render, Vercel, Make, Agile / Kanban</td></tr>
+                <tr><th>Languages</th><td>English (B2, EF SET), Hungarian (native)</td></tr>
+            </table>
+        </section>
+
+        <!-- Case studies -->
+        <section class="block" id="projects">
+            <h2>Case studies</h2>
+            <div class="cards">
+                <a class="project-card" href="case-studies/client-portal.html">
+                    <img src="assets/images/client-portal-responsive-devices-mockup.webp" alt="Client Portal on laptop, tablet and phone">
+                    <div class="project-card-text">
+                        <p class="case-type">Full-stack web app</p>
+                        <h3>Client Portal</h3>
+                        <p>Document collection portal with separate staff and client roles.</p>
+                        <p class="stack">Python · Django · SQLite · Render</p>
+                        <span class="read">Read case study →</span>
+                    </div>
+                </a>
+                <a class="project-card" href="case-studies/workcafe.html">
+                    <img src="assets/images/workcafe-responsive-devices-mockup.webp" alt="WorkCafe on laptop, tablet and phone">
+                    <div class="project-card-text">
+                        <p class="case-type">Full-stack web app</p>
+                        <h3>WorkCafe</h3>
+                        <p>Café finder for remote workers, with a map, accounts and automated tests.</p>
+                        <p class="stack">Python · Django · PostgreSQL · Heroku</p>
+                        <span class="read">Read case study →</span>
+                    </div>
+                </a>
+                <a class="project-card" href="case-studies/pergola-calculator.html">
+                    <img src="assets/images/pergola-responsive-devices-mockup.webp" alt="Pergola Calculator on several devices">
+                    <div class="project-card-text">
+                        <p class="case-type">Client project</p>
+                        <h3>Pergola Calculator</h3>
+                        <p>3D configurator that turns a pergola design into a material list and price.</p>
+                        <p class="stack">JavaScript · Babylon.js · Firebase Cloud Functions</p>
+                        <span class="read">Read case study →</span>
+                    </div>
+                </a>
+                <a class="project-card" href="case-studies/budgeting-app.html">
+                    <img src="assets/images/budgeting-app.webp" alt="Budgeting App on several devices">
+                    <div class="project-card-text">
+                        <p class="case-type">Web app</p>
+                        <h3>Budgeting App</h3>
+                        <p>Budgeting with debt tracking, what-if forecasts and unit tests.</p>
+                        <p class="stack">JavaScript · Firebase · Chart.js · Jest</p>
+                        <span class="read">Read case study →</span>
+                    </div>
+                </a>
+                <a class="project-card" href="case-studies/northline-automation.html">
+                    <img src="assets/images/plumber-responsive-devices-mockup.webp" alt="Northline website on laptop, tablet and phone">
+                    <div class="project-card-text">
+                        <p class="case-type">Website and automation</p>
+                        <h3>Northline Gas &amp; Heating</h3>
+                        <p>Quote form that sorts requests with AI in Make and flags emergencies straight away.</p>
+                        <p class="stack">HTML · CSS · Firebase · Make · AI · Google Sheets</p>
+                        <span class="read">Read case study →</span>
+                    </div>
+                </a>
+                <a class="project-card" href="case-studies/anne-hair-studio.html">
+                    <img src="assets/images/hair-responsive-devices-mockup.webp" alt="Anne Hair Studio on laptop, tablet and phone">
+                    <div class="project-card-text">
+                        <p class="case-type">Website with booking</p>
+                        <h3>Anne Hair Studio</h3>
+                        <p>Salon website with a booking calendar written in plain JavaScript.</p>
+                        <p class="stack">HTML · CSS · JavaScript · Firebase Hosting</p>
+                        <span class="read">Read case study →</span>
+                    </div>
+                </a>
+            </div>
+
+            <h3 class="sub-title">Other projects</h3>
+            <ul class="other">
+                <li><strong>LaunchTrack LMS</strong>: staff training with 11 modules that unlock in order, quizzes with a 90% pass mark and PDF certificates. <a href="https://lms-demo-w8lj.onrender.com" target="_blank" rel="noopener">Live demo</a> · <a href="https://github.com/Anasztazia12/lms-demo" target="_blank" rel="noopener">Code</a></li>
+                <li><strong>Quote Tracker</strong>: keeps every quote, follow-up date and status in one place, with reminders and one-click acceptance. <a href="https://quote-demo.onrender.com" target="_blank" rel="noopener">Live demo</a> · <a href="https://github.com/Anasztazia12/quote-demo" target="_blank" rel="noopener">Code</a></li>
+                <li><strong>Rental Tracker</strong>: shows which equipment is out and when it is due back, calculates fees and deposits, and records handovers with a signature. <a href="https://rental-demo.onrender.com" target="_blank" rel="noopener">Live demo</a> · <a href="https://github.com/Anasztazia12/rental-demo" target="_blank" rel="noopener">Code</a></li>
+                <li><strong>Fishing Logbook</strong>: catch log with photos that works offline and syncs to Supabase, with accounts and password reset. <a href="https://fishing-logbook.amethyst-nexalune.co.uk/" target="_blank" rel="noopener">Live demo</a> · <a href="https://github.com/Anasztazia12/fishing-logbook" target="_blank" rel="noopener">Code</a></li>
+                <li><strong>Maths Challenge</strong>: timed maths game for children aged 8–9, with progress tracking and avatars. <a href="https://maths-challenge.amethyst-nexalune.co.uk/" target="_blank" rel="noopener">Live demo</a> · <a href="https://github.com/Anasztazia12/Maths-Challenge" target="_blank" rel="noopener">Code</a></li>
+            </ul>
+        </section>
+
+        <!-- How I work -->
+        <section class="block" id="how-i-work">
+            <h2>How I work</h2>
+            <ol class="steps">
+                <li><strong>Plan</strong>I write user stories and track them on a GitHub Project board, then split the scope into must have, should have and could have.</li>
+                <li><strong>Design</strong>I sketch wireframes and plan the structure of each page before I start building.</li>
+                <li><strong>Model the data</strong>I decide on the database models and their relationships early, because changing them later costs the most time.</li>
+                <li><strong>Build and test</strong>I build in small steps and commit often. I write automated tests (Django TestCase, Jest), test by hand on desktop and phone, and validate HTML and CSS with the W3C validators.</li>
+                <li><strong>Deploy and document</strong>I deploy to Heroku, Render or Firebase and write a README covering setup, testing and the bugs I found and fixed.</li>
+            </ol>
+        </section>
+
+        <!-- Experience -->
+        <section class="block" id="experience">
+            <h2>Experience</h2>
+
+            <div class="entry">
+                <span class="when">Aug 2026 – present</span>
+                <div>
+                    <h3>Freelance Web Developer</h3>
+                    <p class="muted">Amethyst Nexalune</p>
+                    <ul>
+                        <li>Build websites, web apps and small business systems for clients, from first meeting to deployment.</li>
+                        <li>Built a Django client portal, a staff training system, and quote and rental trackers with live demos.</li>
+                        <li>Built a 3D material calculator with Babylon.js and Firebase Cloud Functions for a construction company.</li>
+                        <li>Deliver sites in English and Hungarian; automate client workflows with Make.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 class="sub-title">Earlier career</h3>
+
+            <div class="entry">
+                <span class="when">Jan 2020 – Feb 2022</span>
+                <div>
+                    <h3>Teaching Assistant</h3>
+                    <p class="muted">Kompanik Zsofia Ovoda (Nursery), Hungary</p>
+                    <p>Prepared learning materials and supported children individually and in small groups, following safeguarding policies.</p>
+                </div>
+            </div>
+            <div class="entry">
+                <span class="when">Oct 2017 – Aug 2018</span>
+                <div>
+                    <h3>Administrator / Document Preparer</h3>
+                    <p class="muted">Bottomline</p>
+                    <p>Sorted, filed and digitised client records.</p>
+                </div>
+            </div>
+            <div class="entry">
+                <span class="when">Jun 2014 – Oct 2016</span>
+                <div>
+                    <h3>Personal Assistant</h3>
+                    <p class="muted">Independent Living Alternatives (ILA)</p>
+                    <p>Personal and practical support for clients with a range of disabilities.</p>
+                </div>
+            </div>
+            <div class="entry">
+                <span class="when">Sep 2012 – May 2014</span>
+                <div>
+                    <h3>Stock Audit Assistant / Warehouse Operative</h3>
+                    <p class="muted">Findel Education Ltd, Enfield</p>
+                    <p>Stock checks, quality control and daily reporting with the audit team.</p>
+                </div>
+            </div>
+            <div class="entry">
+                <span class="when">Sep 2003 – Aug 2012</span>
+                <div>
+                    <h3>Pharmacy Assistant</h3>
+                    <p class="muted">Pharmacy of Saint Mate, Budapest</p>
+                    <p>Prepared prescriptions, checked dosages, entered patient data and compounded medicines in the pharmacy lab.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education -->
+        <section class="block" id="education">
+            <h2>Education</h2>
+
+            <div class="entry">
+                <span class="when">2027 (expected)</span>
+                <div>
+                    <h3>Level 5 Diploma in Web Application Development</h3>
+                    <p class="muted">South Staffordshire College and Code Institute</p>
+                </div>
+            </div>
+
+            <h3 class="sub-title">Certifications</h3>
+
+            <div class="entry">
+                <span class="when">Oct 2026</span>
+                <div>
+                    <h3>Foundational C# with Microsoft</h3>
+                    <p class="muted">freeCodeCamp and Microsoft · <a href="assets/images/certs/public-cert-freecodecamp-csharp-microsoft.webp" target="_blank" rel="noopener">view certificate</a> · <a href="https://www.freecodecamp.org/certification/anisz12/foundational-c-sharp-with-microsoft" target="_blank" rel="noopener">verify online</a></p>
+                </div>
+            </div>
+            <div class="entry">
+                <span class="when">Oct 2026</span>
+                <div>
+                    <h3>Make Certified: Level 3 Intermediate</h3>
+                    <p class="muted">Make Academy, workflow automation · <a href="assets/images/certs/public-cert-make-level3.webp" target="_blank" rel="noopener">view certificate</a></p>
+                </div>
+            </div>
+            <div class="entry">
+                <span class="when">2026</span>
+                <div>
+                    <h3>Technical SEO and AI Search Essentials</h3>
+                    <p class="muted">Semrush Academy · <a href="assets/images/certs/public-cert-semrush-technicalseo.webp" target="_blank" rel="noopener">view certificate</a></p>
+                </div>
+            </div>
+            <div class="entry">
+                <span class="when">Jul 2026</span>
+                <div>
+                    <h3>Digital Marketing</h3>
+                    <p class="muted">HubSpot Academy · <a href="assets/images/certs/public-cert-hubspot-digitalmarketing.webp" target="_blank" rel="noopener">view certificate</a></p>
+                </div>
+            </div>
+            <div class="entry">
+                <span class="when">May 2026</span>
+                <div>
+                    <h3>Web Development</h3>
+                    <p class="muted">Sololearn · <a href="assets/images/certs/cert-sololearn-webdev.webp" target="_blank" rel="noopener">view certificate</a></p>
+                </div>
+            </div>
+            <div class="entry">
+                <span class="when">May 2026</span>
+                <div>
+                    <h3>Prompt Engineering</h3>
+                    <p class="muted">Sololearn · <a href="assets/images/certs/cert-sololearn-prompteng.webp" target="_blank" rel="noopener">view certificate</a></p>
+                </div>
+            </div>
+            <div class="entry">
+                <span class="when">Apr 2026</span>
+                <div>
+                    <h3>Responsive Web Design</h3>
+                    <p class="muted">freeCodeCamp · <a href="assets/images/certs/public-cert-freecodecamp-responsive-web-design.webp" target="_blank" rel="noopener">view certificate</a> · <a href="https://www.freecodecamp.org/certification/anisz12/responsive-web-design-v9" target="_blank" rel="noopener">verify online</a></p>
+                </div>
+            </div>
+            <div class="entry">
+                <span class="when">Oct 2024</span>
+                <div>
+                    <h3>Level 2 Certificate in the Principles of Cyber Security</h3>
+                    <p class="muted">NCFE, Ofqual regulated · <a href="assets/images/certs/public-cert-ncfe-cybersecurity.webp" target="_blank" rel="noopener">view certificate</a></p>
+                </div>
+            </div>
+
+            <details>
+                <summary>Other qualifications</summary>
+                <div class="entry"><span class="when">2026 (expected)</span><div><h3>Level 4, Lower Back Pain Management</h3><p class="muted">PT Academy</p></div></div>
+                <div class="entry"><span class="when">2026 (expected)</span><div><h3>Level 3 Diploma, GP Exercise Referral</h3><p class="muted">PT Academy</p></div></div>
+                <div class="entry"><span class="when">2026</span><div><h3>Level 5, Child Psychology and Psychiatry</h3></div></div>
+                <div class="entry"><span class="when">2026</span><div><h3>Safeguarding in Sport</h3></div></div>
+                <div class="entry"><span class="when">2025</span><div><h3>Level 3, Personal Trainer</h3><p class="muted">PT Academy</p></div></div>
+                <div class="entry"><span class="when">2025</span><div><h3>Level 2, Gym Instructor</h3><p class="muted">PT Academy</p></div></div>
+                <div class="entry"><span class="when">2025</span><div><h3>Level 2, Mental Health First Aid and Advocacy in the Workplace</h3></div></div>
+                <div class="entry"><span class="when">2025</span><div><h3>EF SET English Certificate, B2</h3></div></div>
+                <div class="entry"><span class="when">2025</span><div><h3>Level 1 Diploma, Professional Coaching</h3></div></div>
+                <div class="entry"><span class="when">2024</span><div><h3>Level 2 Functional Skills, Maths</h3></div></div>
+                <div class="entry"><span class="when">2009 – 2011</span><div><h3>Legal Assistant Qualification</h3><p class="muted">Forrai School</p></div></div>
+                <div class="entry"><span class="when">2003 – 2009</span><div><h3>Pharmacy Assistant Certificate and Pharmacy Technician Assistant</h3></div></div>
+                <div class="entry"><span class="when">2003</span><div><h3>Child and Youth Care Worker</h3></div></div>
+                <div class="entry"><span class="when">1997 – 2002</span><div><h3>Secondary school (GCSE equivalent)</h3><p class="muted">Ludovika Human and Pedagogy Secondary School</p></div></div>
+            </details>
+        </section>
+
+        <footer class="footer">
+            © 2026 Anasztázia Karalyos-Kecskés
+        </footer>
+    </main>
+</div>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

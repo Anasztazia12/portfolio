@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Portal case study | Anasztázia Karalyos-Kecskés</title>
+    <meta name="description" content="Case study: a Django client portal for collecting documents, with staff and client roles, versioned uploads and reminder emails.">
+    <link rel="icon" href="../assets/images/favicon.ico">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <img class="photo" src="../assets/images/profile.webp" alt="Anasztázia Karalyos-Kecskés" width="120" height="120">
+        <h1>Anasztázia Karalyos-Kecskés</h1>
+        <p class="role">Web Application Developer</p>
+        <p class="status">Looking for a junior web developer role. Based in the UK.</p>
+
+        <nav>
+            <ul class="menu">
+                <li><a href="../index.html#profile">Profile</a></li>
+                <li><a href="../index.html#projects">Case studies</a></li>
+                <li><a href="../index.html#how-i-work">How I work</a></li>
+                <li><a href="../index.html#experience">Experience</a></li>
+                <li><a href="../index.html#education">Education</a></li>
+            </ul>
+        </nav>
+
+        <p class="side-title">Contact</p>
+        <ul class="contact">
+            <li><a href="mailto:kecskes.anasztazia@gmail.com">kecskes.anasztazia@gmail.com</a></li>
+            <li><a href="tel:+447564040783">+44 7564 040783</a></li>
+            <li><a href="https://github.com/Anasztazia12" target="_blank" rel="noopener">github.com/Anasztazia12</a></li>
+        </ul>
+
+        <a class="cv-button" href="../assets/pdf/CV_Anasztazia_Karalyos-Kecskes.pdf" download>Download CV (PDF)</a>
+    </aside>
+
+    <!-- Case study -->
+    <main class="content study">
+        <a class="back" href="../index.html#projects">← All case studies</a>
+
+        <p class="case-type">Full-stack web app</p>
+        <h1 class="page-title">Client Portal</h1>
+        <p class="lead">A portal where a business asks clients for documents, clients upload them, and staff review each file.</p>
+
+        <ul class="facts">
+            <li><span>My role</span>Design and development</li>
+            <li><span>Type</span>Business software demo</li>
+            <li><span>Stack</span>Python, Django, SQLite, Render</li>
+        </ul>
+
+        <div class="links">
+            <a href="https://client-portal-demo-1.onrender.com" target="_blank" rel="noopener">Live demo</a>
+            <a href="https://github.com/Anasztazia12/client_portal_demo" target="_blank" rel="noopener">Code on GitHub</a>
+        </div>
+
+        <div class="slider">
+            <img src="../assets/images/client-portal-responsive-devices-mockup.webp" alt="Client Portal on laptop, tablet and phone" class="show">
+            <img src="../assets/images/client-portal-laptop-checklist.webp" alt="Client document checklist" loading="lazy">
+            <img src="../assets/images/client-portal-tablet-phone.webp" alt="Client Portal on tablet and phone" loading="lazy">
+            <button type="button" class="prev" aria-label="Previous image">&#10094;</button>
+            <button type="button" class="next" aria-label="Next image">&#10095;</button>
+        </div>
+
+        <h2>The problem</h2>
+        <p>Accountants, law firms and estate agents need documents from every new client: a company extract, a signature specimen, a tax certificate. Usually these arrive by email. Files get lost in inboxes, staff have to keep chasing clients, and nobody can see at a glance what is still missing.</p>
+
+        <h2>What I built</h2>
+        <p>A Django app with two sides:</p>
+        <ul>
+            <li><strong>Client side:</strong> the client logs in and sees a checklist of the documents requested from them. They upload each file with drag and drop, and can see whether it was approved or rejected, and why.</li>
+            <li><strong>Staff side:</strong> a staff console with a list of clients and a progress bar for each. Staff can edit client details, send a new document request with a due date, and approve or reject uploads with a note.</li>
+        </ul>
+
+        <h2>Technical details</h2>
+        <ul>
+            <li>Three related models: a <code>Client</code> has many <code>DocumentRequest</code>s, and each request has many <code>UploadedDocument</code>s. Keeping every upload means a rejected file can be replaced without losing its history.</li>
+            <li>Role-based routing: after login, staff accounts (<code>is_staff</code>) go to <code>/staff/</code>, clients go to their own checklist.</li>
+            <li>A new document request sends the client an email notification.</li>
+            <li>Custom management commands: <code>send_reminders</code> emails clients whose documents are 3 or more days overdue, and <code>seed_demo</code> creates a demo client with sample requests.</li>
+            <li>Server-rendered Django templates, with no JavaScript framework and no build step.</li>
+            <li>Deployed on Render from a <code>render.yaml</code> blueprint. The admin password is set as an environment variable, not stored in the repository.</li>
+        </ul>
+
+        <h2>Code sample</h2>
+        <p>The review logic lives on the model, so the staff console and the Django admin use the same code:</p>
+<pre><code>class UploadedDocument(models.Model):
+    ...
+    def approve(self, reviewer):
+        self.status = self.STATUS_APPROVED
+        self.reviewed_by = reviewer
+        self.reviewed_at = timezone.now()
+        self.save()
+
+    def reject(self, reviewer, note=""):
+        self.status = self.STATUS_REJECTED
+        self.reviewed_by = reviewer
+        self.reviewed_at = timezone.now()
+        self.admin_note = note
+        self.save()</code></pre>
+
+        <h2>Decisions I made</h2>
+        <div class="fix">
+            <p><strong>A custom staff console instead of the Django admin.</strong> The built-in admin works, but it is not designed for daily office work. A simple console with a progress bar per client is faster for staff to use.</p>
+        </div>
+        <div class="fix">
+            <p><strong>A daily command instead of a task queue.</strong> Reminder emails run as a management command that can be scheduled once a day. Celery and Redis would add a lot of setup for something this small.</p>
+        </div>
+        <div class="fix">
+            <p><strong>Two versions of the demo.</strong> Next to the working Django app, I built a static front-end showcase of the same product with an English/Hungarian language switch, to show what a more polished interface could look like.</p>
+        </div>
+
+        <h2>What I would do next</h2>
+        <ul>
+            <li>Encrypt uploaded files at rest.</li>
+            <li>Production hardening: turn off debug mode, restrict allowed hosts and add rate limiting to the login.</li>
+            <li>Send real emails through an email service instead of the console backend used in the demo.</li>
+            <li>Move reminders to a task queue if the number of clients grows.</li>
+        </ul>
+
+        <a class="next-case" href="workcafe.html"><span>Next case study</span><strong>WorkCafe →</strong></a>
+
+        <footer class="footer">© 2026 Anasztázia Karalyos-Kecskés</footer>
+    </main>
+</div>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

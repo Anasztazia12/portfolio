@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Northline quote automation case study | Anasztázia Karalyos-Kecskés</title>
+    <meta name="description" content="Case study: a website and Make automation for a heating engineer that sorts quote requests with AI and flags emergencies straight away.">
+    <link rel="icon" href="../assets/images/favicon.ico">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <img class="photo" src="../assets/images/profile.webp" alt="Anasztázia Karalyos-Kecskés" width="120" height="120">
+        <h1>Anasztázia Karalyos-Kecskés</h1>
+        <p class="role">Web Application Developer</p>
+        <p class="status">Looking for a junior web developer role. Based in the UK.</p>
+
+        <nav>
+            <ul class="menu">
+                <li><a href="../index.html#profile">Profile</a></li>
+                <li><a href="../index.html#projects">Case studies</a></li>
+                <li><a href="../index.html#how-i-work">How I work</a></li>
+                <li><a href="../index.html#experience">Experience</a></li>
+                <li><a href="../index.html#education">Education</a></li>
+            </ul>
+        </nav>
+
+        <p class="side-title">Contact</p>
+        <ul class="contact">
+            <li><a href="mailto:kecskes.anasztazia@gmail.com">kecskes.anasztazia@gmail.com</a></li>
+            <li><a href="tel:+447564040783">+44 7564 040783</a></li>
+            <li><a href="https://github.com/Anasztazia12" target="_blank" rel="noopener">github.com/Anasztazia12</a></li>
+        </ul>
+
+        <a class="cv-button" href="../assets/pdf/CV_Anasztazia_Karalyos-Kecskes.pdf" download>Download CV (PDF)</a>
+    </aside>
+
+    <!-- Case study -->
+    <main class="content study">
+        <a class="back" href="../index.html#projects">← All case studies</a>
+
+        <p class="case-type">Website and workflow automation</p>
+        <h1 class="page-title">Northline Gas &amp; Heating</h1>
+        <p class="lead">A website for a heating engineer, with a quote form that sorts every request in seconds and flags emergencies straight away.</p>
+
+        <ul class="facts">
+            <li><span>My role</span>Design, development and automation</li>
+            <li><span>Type</span>Business website and Make scenario</li>
+            <li><span>Stack</span>HTML, CSS, JavaScript, Firebase, Make, AI, Google Sheets</li>
+        </ul>
+
+        <div class="links">
+            <a href="https://northline-gas.web.app/#contact" target="_blank" rel="noopener">Try the live form</a>
+            <a href="https://northline-gas.web.app/" target="_blank" rel="noopener">Live site</a>
+        </div>
+
+        <div class="slider">
+            <img src="../assets/images/plumber-responsive-devices-mockup.webp" alt="Northline website on laptop, tablet and phone" class="show">
+            <img src="../assets/images/northline-quote-form.webp" alt="Quote request form" loading="lazy">
+            <img src="../assets/images/plumber-services-laptop.webp" alt="Services section on a laptop" loading="lazy">
+            <img src="../assets/images/plumber-tablet.webp" alt="Website on a tablet" loading="lazy">
+            <img src="../assets/images/plumber-mobile.webp" alt="Website on a phone" loading="lazy">
+            <button type="button" class="prev" aria-label="Previous image">&#10094;</button>
+            <button type="button" class="next" aria-label="Next image">&#10095;</button>
+        </div>
+
+        <h2>The problem</h2>
+        <p>A one-person heating engineer cannot read emails while working on a boiler. Urgent jobs, like no heating or a smell of gas, sit unread between routine quote requests, and the customer rings someone else. The requests are also spread across an inbox, with no single list of jobs.</p>
+
+        <h2>What I built</h2>
+        <ul>
+            <li><strong>The website:</strong> opening hours, emergency call-outs, phone, email and the area covered are on the first screen, followed by a "Request a quote" button, trust points and a short list of services. It works on any device.</li>
+            <li><strong>The automation:</strong> the quote form sends each request to a Make scenario. AI reads the message, sorts it by job type and urgency, and the request is saved to the engineer's job list. Urgent jobs are sent to the engineer straight away, and the customer gets a reply within seconds.</li>
+        </ul>
+
+        <h2>How the automation works</h2>
+        <ol>
+            <li><strong>Webhook:</strong> the website form sends name, phone, email, postcode and message to Make.</li>
+            <li><strong>AI step:</strong> the message is classified into JSON with the job type, urgency (emergency, soon or routine), a one-line summary and a "needs check" flag.</li>
+            <li><strong>Safety net:</strong> a Make filter checks for words like gas, smell, carbon monoxide, leak, burst and no heating. If one is found, the job is always urgent, whatever the AI said.</li>
+            <li><strong>Job list:</strong> a new row is added to a Google Sheet with the status "New".</li>
+            <li><strong>Router:</strong> urgent jobs send the engineer an email at once; every customer gets a confirmation email.</li>
+            <li><strong>Instant reply:</strong> the website shows the result to the customer on the page.</li>
+        </ol>
+
+        <h2>The AI instruction</h2>
+        <p>The AI only labels the request. It returns JSON, so the next Make modules can use each field:</p>
+<pre><code>{
+  "job_type": one of "boiler_repair", "boiler_service", "central_heating",
+              "plumbing", "gas_safety_certificate", "other", ...
+  "urgency": one of "emergency", "soon", "routine",
+  "summary": "one short sentence for the engineer, max 20 words",
+  "needs_check": true or false
+}
+
+If you are unsure between two urgency levels, choose the more urgent one.
+Never invent details that are not in the message.</code></pre>
+
+        <h2>Making it safe when AI gets it wrong</h2>
+        <div class="fix">
+            <p><strong>Keyword safety net.</strong> A rule-based filter, not the AI, makes sure any mention of gas, carbon monoxide or a leak is always marked urgent.</p>
+        </div>
+        <div class="fix">
+            <p><strong>When unsure, choose urgent.</strong> One unnecessary alert costs less than a missed emergency, so the instruction tells the AI to pick the more urgent level.</p>
+        </div>
+        <div class="fix">
+            <p><strong>Nothing gets lost.</strong> If the AI step fails, the request is still saved to the sheet and marked "Check". Unclear messages or spam are flagged instead of guessed.</p>
+        </div>
+        <div class="fix">
+            <p><strong>The engineer decides.</strong> The original message is always kept in the sheet. The AI only adds labels; the engineer still reads and replies.</p>
+        </div>
+        <div class="fix">
+            <p><strong>Gas emergency number.</strong> If a customer mentions a gas smell, the automatic reply includes the National Gas Emergency number, 0800 111 999.</p>
+        </div>
+
+        <h2>Testing</h2>
+        <p>Before going live I ran a set of test requests through the scenario, including several emergencies, using a simple test form that posts to the Make webhook. Where a request was sorted wrongly, I fixed the AI instruction and ran the tests again.</p>
+
+        <h2>What I would do next</h2>
+        <ul>
+            <li>A second scenario that sends the engineer a morning summary of all new routine requests.</li>
+        </ul>
+
+        <a class="next-case" href="anne-hair-studio.html"><span>Next case study</span><strong>Anne Hair Studio →</strong></a>
+
+        <footer class="footer">© 2026 Anasztázia Karalyos-Kecskés</footer>
+    </main>
+</div>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

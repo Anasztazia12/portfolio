@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CV - Anasztázia Karalyos-Kecskés</title>
+    <!-- Printable CV. The PDF in assets/pdf is made from this page (see README). -->
+    <style>
+        @page { size: A4; margin: 16mm 16mm 14mm; }
+        body { margin: 0; color: #232323; font: 10pt/1.45 'Segoe UI', Arial, sans-serif; }
+        h1, h2, h3 { font-family: Georgia, serif; margin: 0; }
+        h1 { font-size: 22pt; }
+        h2 { margin: 14px 0 6px; padding-bottom: 3px; border-bottom: 1.5px solid #232323; font-size: 12.5pt; }
+        h3 { font-size: 10.5pt; }
+        p, ul { margin: 2px 0; }
+        ul { padding-left: 16px; }
+        a { color: #1f5c4a; text-decoration: none; }
+        .role { margin: 2px 0 4px; color: #1f5c4a; font-size: 12pt; }
+        .contact { color: #555; }
+        .item { margin-bottom: 8px; break-inside: avoid; }
+        .head { display: flex; justify-content: space-between; gap: 12px; }
+        .when { color: #555; white-space: nowrap; }
+        .muted { color: #555; }
+        table { border-collapse: collapse; }
+        th { width: 82px; padding: 1px 10px 1px 0; text-align: left; vertical-align: top; }
+        td { padding: 1px 0; }
+    </style>
+</head>
+<body>
+
+<h1>Anasztázia Karalyos-Kecskés</h1>
+<p class="role">Web Application Developer</p>
+<p class="contact">
+    kecskes.anasztazia@gmail.com · +44 7564 040783 ·
+    <a href="https://github.com/Anasztazia12">github.com/Anasztazia12</a> ·
+    <a href="https://www.amethyst-nexalune.co.uk">amethyst-nexalune.co.uk</a>
+</p>
+
+<h2>Profile</h2>
+<p>Junior web application developer working with Python, Django and JavaScript, from database models to tested, deployed apps. Studying for a Level 5 Diploma in Web Application Development (expected 2027) and working as a freelance developer since August 2026. Nine years as a pharmacy assistant and several years in education and care gave me a careful, detail-focused way of working and a strong sense for the people who use the software.</p>
+
+<h2>Skills</h2>
+<table>
+    <tr><th>Backend</th><td>Python, Django, Node.js, REST APIs, C# (learning)</td></tr>
+    <tr><th>Frontend</th><td>JavaScript (ES6+), HTML, CSS, Bootstrap, Chart.js, Leaflet, Babylon.js</td></tr>
+    <tr><th>Data</th><td>PostgreSQL, SQLite, MySQL, Firebase (Auth, Firestore, Cloud Functions), Supabase</td></tr>
+    <tr><th>Testing</th><td>Django TestCase, Jest, Playwright, manual testing</td></tr>
+    <tr><th>Tools</th><td>Git, GitHub, Heroku, Render, Vercel, Make, Agile / Kanban</td></tr>
+    <tr><th>Languages</th><td>English (B2), Hungarian (native)</td></tr>
+</table>
+
+<h2>Projects</h2>
+<div class="item">
+    <div class="head"><h3>Client Portal: Python, Django, SQLite, Render</h3><a href="https://client-portal-demo-1.onrender.com">live demo</a></div>
+    <ul>
+        <li>Document collection portal with two user roles: clients upload files, staff approve or reject them in a custom console.</li>
+        <li>Three related models with versioned uploads; custom management commands for reminder emails and demo data.</li>
+    </ul>
+</div>
+<div class="item">
+    <div class="head"><h3>WorkCafe: Python, Django, PostgreSQL, Leaflet, Heroku</h3><a href="https://workcafe-app-4f1f130b7d49.herokuapp.com/">live demo</a></div>
+    <ul>
+        <li>Café finder with search, map, accounts, favourites and full CRUD with ownership checks.</li>
+        <li>8 automated tests with Django TestCase; OpenWeatherMap API; user stories on a GitHub Project board.</li>
+    </ul>
+</div>
+<div class="item">
+    <div class="head"><h3>Pergola Calculator (client project): JavaScript, Babylon.js, Firebase</h3><a href="https://pergolakalkulator.com/calculator">live site</a></div>
+    <ul>
+        <li>3D configurator that calculates materials and price as the customer changes the design.</li>
+        <li>Price formulas kept server-side in Cloud Functions with origin checks, rate limiting and signed responses; moved the backend from PHP to Firebase.</li>
+    </ul>
+</div>
+<div class="item">
+    <div class="head"><h3>Budgeting App: JavaScript, Firebase, Chart.js, Jest</h3><a href="https://anasztazia12.github.io/budgeting">live demo</a></div>
+    <ul>
+        <li>Budgeting with debt tracking and what-if forecasts; per-user data in Firestore; 24 Jest unit tests.</li>
+    </ul>
+</div>
+
+<div class="item">
+    <div class="head"><h3>Northline Gas &amp; Heating: website and Make automation</h3><a href="https://northline-gas.web.app/">live site</a></div>
+    <ul>
+        <li>Quote form connected to a Make scenario: AI sorts each request by job type and urgency, saves it to Google Sheets and alerts the engineer about emergencies; a keyword filter and error handling make sure nothing urgent is missed.</li>
+    </ul>
+</div>
+
+<h2>Experience</h2>
+<div class="item">
+    <div class="head"><h3>Freelance Web Developer, Amethyst Nexalune</h3><span class="when">Aug 2026 – present</span></div>
+    <ul>
+        <li>Build websites, web apps and small business systems for clients in the UK and Hungary, from first meeting to deployment.</li>
+        <li>Built a Django client portal, a staff training system, quote and rental trackers, and a 3D calculator for a construction company.</li>
+        <li>Deliver bilingual (English/Hungarian) sites; automate client workflows with Make.</li>
+    </ul>
+</div>
+<div class="item">
+    <div class="head"><h3>Teaching Assistant, Kompanik Zsofia Ovoda (Nursery)</h3><span class="when">Jan 2020 – Feb 2022</span></div>
+    <p>Prepared learning materials and supported children individually and in small groups, following safeguarding policies.</p>
+</div>
+<div class="item">
+    <div class="head"><h3>Administrator / Document Preparer, Bottomline</h3><span class="when">Oct 2017 – Aug 2018</span></div>
+    <p>Sorted, filed and digitised client records accurately.</p>
+</div>
+<div class="item">
+    <div class="head"><h3>Personal Assistant, Independent Living Alternatives</h3><span class="when">Jun 2014 – Oct 2016</span></div>
+    <p>Personal and practical support for clients with a range of disabilities.</p>
+</div>
+<div class="item">
+    <div class="head"><h3>Stock Audit Assistant / Warehouse Operative, Findel Education Ltd</h3><span class="when">Sep 2012 – May 2014</span></div>
+    <p>Stock checks, quality control and daily reporting with the audit team.</p>
+</div>
+<div class="item">
+    <div class="head"><h3>Pharmacy Assistant, Pharmacy of Saint Mate, Budapest</h3><span class="when">Sep 2003 – Aug 2012</span></div>
+    <p>Prepared prescriptions, checked dosages, entered patient data and compounded medicines.</p>
+</div>
+
+<h2>Education and certifications</h2>
+<div class="item">
+    <div class="head"><h3>Level 5 Diploma in Web Application Development</h3><span class="when">2027 (expected)</span></div>
+    <p class="muted">South Staffordshire College and Code Institute</p>
+</div>
+<ul>
+    <li>Foundational C# with Microsoft, freeCodeCamp and Microsoft (Oct 2026)</li>
+    <li>Make Certified: Level 3 Intermediate, Make Academy (2026)</li>
+    <li>Responsive Web Design, freeCodeCamp (Apr 2026)</li>
+    <li>Technical SEO and AI Search Essentials, Semrush Academy (2026)</li>
+    <li>Digital Marketing, HubSpot Academy (2026)</li>
+    <li>Level 2 Certificate in Principles of Cyber Security, NCFE (2024)</li>
+    <li>EF SET English Certificate, B2 (2025) · Level 2 Functional Skills, Maths (2024)</li>
+    <li>Earlier: Personal Trainer (Level 3), Pharmacy Assistant Certificate, Legal Assistant Qualification, Child and Youth Care Worker</li>
+</ul>
+
+</body>
+</html>

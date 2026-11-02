@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budgeting App case study | Anasztázia Karalyos-Kecskés</title>
+    <meta name="description" content="Case study: a budgeting web app with Firebase Authentication, Firestore, what-if forecasts, Chart.js charts and Jest unit tests.">
+    <link rel="icon" href="../assets/images/favicon.ico">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <img class="photo" src="../assets/images/profile.webp" alt="Anasztázia Karalyos-Kecskés" width="120" height="120">
+        <h1>Anasztázia Karalyos-Kecskés</h1>
+        <p class="role">Web Application Developer</p>
+        <p class="status">Looking for a junior web developer role. Based in the UK.</p>
+
+        <nav>
+            <ul class="menu">
+                <li><a href="../index.html#profile">Profile</a></li>
+                <li><a href="../index.html#projects">Case studies</a></li>
+                <li><a href="../index.html#how-i-work">How I work</a></li>
+                <li><a href="../index.html#experience">Experience</a></li>
+                <li><a href="../index.html#education">Education</a></li>
+            </ul>
+        </nav>
+
+        <p class="side-title">Contact</p>
+        <ul class="contact">
+            <li><a href="mailto:kecskes.anasztazia@gmail.com">kecskes.anasztazia@gmail.com</a></li>
+            <li><a href="tel:+447564040783">+44 7564 040783</a></li>
+            <li><a href="https://github.com/Anasztazia12" target="_blank" rel="noopener">github.com/Anasztazia12</a></li>
+        </ul>
+
+        <a class="cv-button" href="../assets/pdf/CV_Anasztazia_Karalyos-Kecskes.pdf" download>Download CV (PDF)</a>
+    </aside>
+
+    <!-- Case study -->
+    <main class="content study">
+        <a class="back" href="../index.html#projects">← All case studies</a>
+
+        <p class="case-type">Web app</p>
+        <h1 class="page-title">Budgeting App</h1>
+        <p class="lead">A budgeting app that also answers "what happens if…?" before you make a money decision.</p>
+
+        <ul class="facts">
+            <li><span>My role</span>Design and development</li>
+            <li><span>Type</span>Personal project</li>
+            <li><span>Stack</span>JavaScript, Firebase, Chart.js, Jest</li>
+        </ul>
+
+        <div class="links">
+            <a href="https://anasztazia12.github.io/budgeting" target="_blank" rel="noopener">Live demo</a>
+            <a href="https://github.com/Anasztazia12/budgeting" target="_blank" rel="noopener">Code on GitHub</a>
+        </div>
+
+        <div class="slider">
+            <img src="../assets/images/budgeting-app.webp" alt="Budgeting App on several devices" class="show">
+            <img src="../assets/images/budget1.webp" alt="Budget page" loading="lazy">
+            <img src="../assets/images/budget2.webp" alt="Spending charts" loading="lazy">
+            <img src="../assets/images/budget3.webp" alt="Debt manager" loading="lazy">
+            <img src="../assets/images/budget4.webp" alt="Monthly summary" loading="lazy">
+            <button type="button" class="prev" aria-label="Previous image">&#10094;</button>
+            <button type="button" class="next" aria-label="Next image">&#10095;</button>
+        </div>
+
+        <h2>The problem</h2>
+        <p>Most budgeting tools only show what you have already spent. People also want to try out a decision first: what if I pay this loan off early, or what if my rent goes up?</p>
+
+        <h2>What I built</h2>
+        <p>A budgeting app with four main parts:</p>
+        <ul>
+            <li><strong>Budget:</strong> add, edit and delete income and expenses, with totals and categories.</li>
+            <li><strong>Forecast:</strong> try out what-if scenarios and save them.</li>
+            <li><strong>Debt manager:</strong> track loans, monthly payments, the remaining amount and planned early payoff, linked to the forecast.</li>
+            <li><strong>Monthly summary:</strong> income and expenses as a pie or bar chart.</li>
+        </ul>
+        <p>Users can register, log in or continue as a guest. The app has a light and dark theme and a Hungarian/English language switch.</p>
+
+        <h2>Technical details</h2>
+        <ul>
+            <li>Firebase Authentication for accounts. When a user registers, a document is created for them in Firestore at <code>users/{uid}</code>, and all their data is stored under it.</li>
+            <li>Guests can use the app without an account. Their data is kept separately in <code>sessionStorage</code>, while settings such as language and theme are saved in <code>localStorage</code>.</li>
+            <li>Charts built with Chart.js.</li>
+            <li>Shared calculation logic in one script, used by every page and by the tests.</li>
+        </ul>
+
+        <h2>Testing</h2>
+        <p>24 unit tests written with Jest. The tests load the real browser script instead of a copy of its functions, so they test exactly the code the app runs. They cover totals, month boundaries (including February in leap years), filtering entries by month, guest data and storage keys.</p>
+<pre><code>test("adds numeric and numeric-string amounts", () => {
+    expect(shared.sumEntries([{ amount: 100 }, { amount: "50.5" }, { amount: 0 }]))
+        .toBeCloseTo(150.5);
+});
+
+test("treats missing amounts and non-arrays as zero", () => {
+    expect(shared.sumEntries([{}, null])).toBe(0);
+    expect(shared.sumEntries(null)).toBe(0);
+});</code></pre>
+
+        <h2>Challenges and fixes</h2>
+        <div class="fix">
+            <p><strong>Keeping account data and the database in step.</strong> Firebase Authentication and Firestore are separate services, so creating or deleting an account has to update both. A Firestore document is created for every new user at registration.</p>
+        </div>
+        <div class="fix">
+            <p><strong>Guest mode without mixing data.</strong> Guests and logged-in users had to be kept fully apart. Guest data uses <code>sessionStorage</code> with its own keys, and the tests check that guests and users never share a key.</p>
+        </div>
+        <div class="fix">
+            <p><strong>Amounts typed as text.</strong> Values from form fields arrive as strings, and some entries had no amount at all. The total function converts strings to numbers and treats missing values as zero, and the tests above check both cases.</p>
+        </div>
+
+        <a class="next-case" href="northline-automation.html"><span>Next case study</span><strong>Northline Gas &amp; Heating →</strong></a>
+
+        <footer class="footer">© 2026 Anasztázia Karalyos-Kecskés</footer>
+    </main>
+</div>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

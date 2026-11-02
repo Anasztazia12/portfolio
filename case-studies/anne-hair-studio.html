@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anne Hair Studio case study | Anasztázia Karalyos-Kecskés</title>
+    <meta name="description" content="Case study: a salon website with a booking calendar written in plain JavaScript, built from the salon's opening hours.">
+    <link rel="icon" href="../assets/images/favicon.ico">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <img class="photo" src="../assets/images/profile.webp" alt="Anasztázia Karalyos-Kecskés" width="120" height="120">
+        <h1>Anasztázia Karalyos-Kecskés</h1>
+        <p class="role">Web Application Developer</p>
+        <p class="status">Looking for a junior web developer role. Based in the UK.</p>
+
+        <nav>
+            <ul class="menu">
+                <li><a href="../index.html#profile">Profile</a></li>
+                <li><a href="../index.html#projects">Case studies</a></li>
+                <li><a href="../index.html#how-i-work">How I work</a></li>
+                <li><a href="../index.html#experience">Experience</a></li>
+                <li><a href="../index.html#education">Education</a></li>
+            </ul>
+        </nav>
+
+        <p class="side-title">Contact</p>
+        <ul class="contact">
+            <li><a href="mailto:kecskes.anasztazia@gmail.com">kecskes.anasztazia@gmail.com</a></li>
+            <li><a href="tel:+447564040783">+44 7564 040783</a></li>
+            <li><a href="https://github.com/Anasztazia12" target="_blank" rel="noopener">github.com/Anasztazia12</a></li>
+        </ul>
+
+        <a class="cv-button" href="../assets/pdf/CV_Anasztazia_Karalyos-Kecskes.pdf" download>Download CV (PDF)</a>
+    </aside>
+
+    <!-- Case study -->
+    <main class="content study">
+        <a class="back" href="../index.html#projects">← All case studies</a>
+
+        <p class="case-type">Website with a booking calendar</p>
+        <h1 class="page-title">Anne Hair Studio</h1>
+        <p class="lead">A website for a one-person hair salon, where clients can see the prices and opening hours and pick a free appointment.</p>
+
+        <ul class="facts">
+            <li><span>My role</span>Design and development</li>
+            <li><span>Type</span>Small business website</li>
+            <li><span>Stack</span>HTML, CSS, JavaScript, Firebase Hosting</li>
+        </ul>
+
+        <div class="links">
+            <a href="https://anne-hair-studio.web.app/" target="_blank" rel="noopener">Live site</a>
+            <a href="https://github.com/Anasztazia12/hairdresser" target="_blank" rel="noopener">Code on GitHub</a>
+        </div>
+
+        <div class="slider">
+            <img src="../assets/images/hair-responsive-devices-mockup.webp" alt="Anne Hair Studio on laptop, tablet and phone" class="show">
+            <img src="../assets/images/hair-booking-calendar.webp" alt="Booking calendar with free times" loading="lazy">
+            <img src="../assets/images/hair-what-we-do.webp" alt="Services section" loading="lazy">
+            <img src="../assets/images/hair-prices-contact.webp" alt="Price list and contact section" loading="lazy">
+            <button type="button" class="prev" aria-label="Previous image">&#10094;</button>
+            <button type="button" class="next" aria-label="Next image">&#10095;</button>
+        </div>
+
+        <h2>The problem</h2>
+        <p>A stylist who works alone has no time to answer the same questions all day: what do you offer, what does it cost, when are you open, and how do I book? If the answers are hard to find, clients go to a salon that makes it easy.</p>
+
+        <h2>What I built</h2>
+        <p>A calm, warm website that answers those questions on the first visit:</p>
+        <ul>
+            <li>A "Book appointment" button that opens a booking calendar. The client picks a day, then a free time, then enters their details.</li>
+            <li>A full price list and a weekly opening hours table, with today's day highlighted.</li>
+            <li>On phones, the call and booking buttons stay at the bottom of the screen while the client scrolls.</li>
+        </ul>
+
+        <h2>Technical details</h2>
+        <ul>
+            <li>The booking calendar is written in plain JavaScript, with no library. It draws each month, disables past days and days with no free time, and lists the free hours for the chosen day.</li>
+            <li>The opening hours are stored once, in a single object. The calendar, the time slots, the opening hours table and the "Open today" text in the header all read from it.</li>
+            <li>The booking form checks the name, email and phone number as the client types and moves focus to the first field with an error.</li>
+            <li>The booking window is a native <code>&lt;dialog&gt;</code>. In old browsers that do not support it, the button simply links to the contact section instead.</li>
+            <li>Hosted on Firebase Hosting.</li>
+        </ul>
+
+        <h2>Code sample</h2>
+        <p>The opening hours drive the whole calendar. A day can be booked only if the salon is open and at least one hour is still free:</p>
+<pre><code>// day of the week → opening hours
+const OPEN = {2:[9,18], 3:[9,18], 4:[10,20], 5:[9,18], 6:[9,15]};
+
+const slotFree = (d, h) =>
+    !(+d === +todayStart &amp;&amp; h &lt;= now.getHours()) &amp;&amp; !isTaken(d, h);
+
+const hasFree = d => {
+    const o = OPEN[d.getDay()];
+    if (!o) return false;
+    for (let h = o[0]; h &lt; o[1]; h++) if (slotFree(d, h)) return true;
+    return false;
+};</code></pre>
+
+        <h2>Challenges and fixes</h2>
+        <div class="fix">
+            <p><strong>Weeks starting on Monday.</strong> JavaScript's <code>getDay()</code> counts Sunday as day 0, but UK calendars start on Monday. I shift the first day of each month with <code>(getDay() + 6) % 7</code> so the dates line up under the right weekday.</p>
+        </div>
+        <div class="fix">
+            <p><strong>No times in the past.</strong> On today's date, hours that have already gone are disabled, and you cannot go back to a month before the current one.</p>
+        </div>
+
+        <h2>What I would do next</h2>
+        <p>This version is a front-end demo: the booked times are simulated, so the calendar looks realistic, and nothing is saved yet. Next I would:</p>
+        <ul>
+            <li>Save bookings to a database (for example Firestore) and read the real free times from it.</li>
+            <li>Stop two clients booking the same time by checking the slot again on the server when the booking is saved.</li>
+            <li>Send a real confirmation email and give the owner a simple page to see and cancel bookings.</li>
+        </ul>
+
+        <a class="next-case" href="client-portal.html"><span>Back to the first case study</span><strong>Client Portal →</strong></a>
+
+        <footer class="footer">© 2026 Anasztázia Karalyos-Kecskés</footer>
+    </main>
+</div>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
