@@ -2,15 +2,17 @@
 
 # Anasztázia Karalyos-Kecskés · Portfolio
 
-**Junior web developer portfolio & CV**: case studies, side projects and a printable CV, built with plain HTML, CSS and a little JavaScript.
+**Junior web application developer**: I build web apps with Python, Django and JavaScript, from the database model to a deployed, tested app.
 
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![Django](https://img.shields.io/badge/Django-092E20?style=flat&logo=django&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat&logo=firebase&logoColor=black)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
-![No framework](https://img.shields.io/badge/framework-none-lightgrey?style=flat)
-![No build step](https://img.shields.io/badge/build-none-lightgrey?style=flat)
 
-[Case studies](#-case-studies) · [Other projects](#-other-projects) · [Project structure](#-project-structure) · [Run locally](#-run-locally) · [Contact](#-contact)
+[Skills](#-skills) · [Case studies](#-case-studies) · [Other projects](#-other-projects) · [Project structure](#-project-structure) · [Run locally](#-run-locally) · [Contact](#-contact)
 
 </div>
 
@@ -19,6 +21,16 @@
 ## 📌 About
 
 A portfolio and CV for junior web developer roles. The home page covers my profile and skills, short project cards, how I work, my experience and my education. Each main project has its own case study page, and the CV can be downloaded as a PDF.
+
+## 🧰 Skills
+
+| Area | Technologies |
+| --- | --- |
+| **Backend** | Python, Django, Node.js, REST APIs, C# *(learning)* |
+| **Frontend** | JavaScript (ES6+), HTML, CSS, Bootstrap, Chart.js, Leaflet, Babylon.js |
+| **Data** | PostgreSQL, SQLite, MySQL, Firebase (Auth, Firestore, Cloud Functions), Supabase |
+| **Testing** | Django TestCase, Jest, Playwright, manual testing, W3C validation |
+| **Tools** | Git & GitHub, Heroku, Render, Vercel, Make, Agile / Kanban |
 
 ## 🗂 Case studies
 
@@ -75,7 +87,9 @@ Every case study follows the same structure:
 | **Fishing Logbook** | Offline-first catch log with photos, synced to Supabase, with accounts and password reset | [Demo](https://fishing-logbook.amethyst-nexalune.co.uk/) · [Code](https://github.com/Anasztazia12/fishing-logbook) |
 | **Maths Challenge** | Timed maths game for children aged 8–9, with progress tracking and avatars | [Demo](https://maths-challenge.amethyst-nexalune.co.uk/) · [Code](https://github.com/Anasztazia12/Maths-Challenge) |
 
-## 🛠 Built with
+## 🛠 How this site is built
+
+The portfolio site itself is deliberately simple, with no framework and no build step:
 
 - **HTML & CSS**: CSS Grid and Flexbox, no framework
 - **JavaScript**: about 15 lines of vanilla JS for the image sliders
