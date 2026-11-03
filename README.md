@@ -2,7 +2,7 @@
 
 # Anasztázia Karalyos-Kecskés · Portfolio
 
-**Junior Web Application Developer**: I build web apps with Python, Django and JavaScript, from the database model to a deployed, tested app.
+**Web Application Developer**: I build web apps with Python, Django and JavaScript, from the database model to a deployed, tested app.
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
 ![Django](https://img.shields.io/badge/Django-092E20?style=flat&logo=django&logoColor=white)
@@ -23,9 +23,9 @@
 
 ## 📌 About
 
-A portfolio and CV for junior web developer roles. The home page covers my profile and skills, short project cards, how I work, my experience and my education. Each main project has its own case study page, and the CV can be downloaded as a PDF.
+A portfolio and CV for web developer roles. The home page covers my profile and skills, short project cards, how I work, my experience and my education. Each main project has its own case study page, and the CV can be downloaded as a PDF.
 
-🎓 **Currently studying:** Level 5 Diploma in Web Application Development at **South Staffordshire College** and **Code Institute** *(expected 2027)*
+🎓 **Currently studying:** Level 5 Diploma in Web Application Development at **South Staffordshire College** and **Code Institute** *(expected February 2027)*
 
 💼 **Freelance:** web developer under the name [Amethyst Nexalune](https://www.amethyst-nexalune.co.uk) since August 2026, building websites, web apps and small business systems for clients in the UK and Hungary
 
@@ -33,7 +33,7 @@ A portfolio and CV for junior web developer roles. The home page covers my profi
 
 | Area | Technologies |
 | --- | --- |
-| **Backend** | Python, Django, Node.js, REST APIs, C# *(learning)* |
+| **Backend** | Python, Django, Node.js, REST APIs, C#, .NET |
 | **Frontend** | JavaScript (ES6+), HTML, CSS, Bootstrap, Chart.js, Leaflet, Babylon.js |
 | **Data** | PostgreSQL, SQLite, MySQL, Firebase (Auth, Firestore, Cloud Functions), Supabase |
 | **Testing** | Django TestCase, Jest, Playwright, manual testing, W3C validation |
