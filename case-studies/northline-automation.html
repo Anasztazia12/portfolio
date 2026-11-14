@@ -28,7 +28,7 @@
         <img class="photo" src="../assets/images/profile.webp" alt="Anasztázia Karalyos-Kecskés" width="120" height="120">
         <h1>Anasztázia <span class="nowrap">Karalyos-Kecskés</span></h1>
         <p class="role">Web Application Developer</p>
-        <p class="status">Open to web developer roles. Based in the UK.</p>
+        <p class="status">Open to remote web developer and automation roles. Based in the UK.</p>
 
         <nav>
             <ul class="menu">
@@ -62,7 +62,8 @@
         <ul class="facts">
             <li><span>My role</span>Design, development and automation</li>
             <li><span>Type</span>Business website and Make scenario</li>
-            <li><span>Stack</span>HTML, CSS, JavaScript, Firebase, Make, AI, Google Sheets</li>
+            <li><span>Stack</span>HTML, CSS, JavaScript, Firebase, Make, OpenAI (GPT-5 nano), Google Sheets</li>
+            <li class="fact-wide"><span>Highlights</span>AI sorts every quote request, a keyword safety net catches emergencies, the engineer is alerted straight away</li>
         </ul>
 
         <div class="links">
@@ -86,10 +87,14 @@
         <h2>What I built</h2>
         <ul>
             <li><strong>The website:</strong> opening hours, emergency call-outs, phone, email and the area covered are on the first screen, followed by a "Request a quote" button, trust points and a short list of services. It works on any device.</li>
-            <li><strong>The automation:</strong> the quote form sends each request to a Make scenario. AI reads the message, sorts it by job type and urgency, and the request is saved to the engineer's job list. Urgent jobs are sent to the engineer straight away, and the customer gets a reply within seconds.</li>
+            <li><strong>The automation:</strong> the quote form sends each request to a Make scenario. AI (OpenAI GPT-5 nano) reads the message, sorts it by job type and urgency, and the request is saved to the engineer's job list. Urgent jobs are sent to the engineer straight away, and the customer gets a reply within seconds.</li>
         </ul>
 
         <h2>How the automation works</h2>
+        <figure class="demo-video">
+            <a href="../assets/images/make-scenario.webp" target="_blank" rel="noopener"><img src="../assets/images/make-scenario.webp" alt="The Make scenario: webhook, AI classification with an error handler, keyword safety net, Google Sheets row, reply to the website form, and a router that sends the customer confirmation and the emergency alert" width="1176" height="481" loading="lazy"></a>
+            <figcaption>The live Make scenario. If the AI step fails, the error handler resumes the run, so the request is still saved.</figcaption>
+        </figure>
         <ol>
             <li><strong>Webhook:</strong> the website form sends name, phone, email, postcode and message to Make.</li>
             <li><strong>AI step:</strong> the message is classified into JSON with the job type, urgency (emergency, soon or routine), a one-line summary and a "needs check" flag.</li>
@@ -131,6 +136,10 @@ Never invent details that are not in the message.</code></pre>
 
         <h2>Testing</h2>
         <p>Before going live I ran a set of test requests through the scenario, including several emergencies, using a simple test form that posts to the Make webhook. Where a request was sorted wrongly, I fixed the AI instruction and ran the tests again.</p>
+        <figure class="demo-video">
+            <a href="../assets/images/make-sheet.webp" target="_blank" rel="noopener"><img src="../assets/images/make-sheet.webp" alt="Test requests in the Google Sheet job list with job type, urgency, AI summary, status and notes" width="1129" height="129" loading="lazy"></a>
+            <figcaption>Test requests in the job sheet (contact details hidden). In the first row the AI could not classify the message, so the keyword safety net marked it as an emergency and set the status to "Check".</figcaption>
+        </figure>
 
         <h2>What I would do next</h2>
         <ul>
