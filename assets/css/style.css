@@ -380,6 +380,18 @@ summary {
     font-weight: 600;
 }
 
+.shelf-link {
+    display: inline-block;
+    margin: -8px 0 20px;
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.shelf-link:hover {
+    text-decoration: underline;
+}
+
 /* ===== Other projects and how I work ===== */
 .other {
     margin: 0;
@@ -1984,4 +1996,843 @@ h1, h2, h3 {
     border: 1px solid var(--line);
     border-radius: 8px;
     background: #f6f6f6;
+}
+
+/* ===== Bookshelf page (bookshelf.html) ===== */
+/* Everything is scoped to .shelf-page so it never touches the other pages */
+/* ===== Colours, textures and base ===== */
+.shelf-page {
+    --sh-wall-top: #2f2e31;
+    --sh-wall-bottom: #605d61;
+    --sh-oak: #c99459;
+    --sh-oak-dark: #9a6a37;
+    --sh-gold: #ebc970;
+    --sh-gold-light: #f3dc9a;
+    --sh-paper: #f2e8d2;
+    --sh-paper-dark: #e0d0ae;
+    --sh-ink: #2e2418;
+    --sh-ink-muted: #6e5d47;
+    --sh-cream: #efe6d4;
+    --sh-title: 'IM Fell English', Georgia, serif;
+    --sh-title-sc: 'IM Fell English SC', Georgia, serif;
+    --sh-body: 'EB Garamond', Georgia, serif;
+    --sh-hand: 'Caveat', 'Segoe Print', cursive;
+
+    /* fine grain for leather and paper */
+    --sh-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    /* very light grain for paper pages */
+    --sh-paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.25 0 0 0 0 0.12 0 0 0 0.12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    /* large blotches: worn leather and stains */
+    --sh-wear: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.035' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.22 0 0 0 0 0.13 0 0 0 0 0.05 0 0 0 1.6 -0.7'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
+    /* vertical cracks showing brown under black leather */
+    --sh-cracks: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='400'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.03 0.18' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.62 0 0 0 0 0.34 0 0 0 0 0.13 0 0 0 4 -1.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E");
+}
+
+/* The dark wall with the shelf, shown as a panel inside the page */
+.shelf-page .shelf-wall {
+    margin-top: 28px;
+    padding: 48px 8px 8px;
+    border-radius: 20px;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.08), transparent 60%),
+        linear-gradient(var(--sh-wall-top), var(--sh-wall-bottom));
+    color: var(--sh-cream);
+    font-family: var(--sh-body);
+    line-height: 1.55;
+    box-shadow: 0 18px 40px -20px rgba(15, 23, 42, 0.45);
+}
+
+/* Book pages use the old-book fonts, not the site headings */
+.shelf-page .reader h2,
+.shelf-page .reader h3 {
+    font-family: var(--sh-title);
+    font-weight: 400;
+    letter-spacing: normal;
+}
+
+.shelf-page .reader h3 {
+    margin: 16px 0 6px;
+    font-size: 1.2rem;
+}
+
+.shelf-page .reader {
+    font-family: var(--sh-body);
+}
+
+/* ===== Shelf ===== */
+.shelf-page .shelf {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.shelf-page .books {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 3px;
+    min-height: 360px;
+    padding: 0 12px;
+}
+
+.shelf-page .board {
+    position: relative;
+    height: 30px;
+    border-radius: 2px;
+    background:
+        var(--sh-grain),
+        repeating-linear-gradient(90deg, rgba(120, 70, 25, 0.0) 0 40px, rgba(120, 70, 25, 0.18) 41px 43px, rgba(120, 70, 25, 0.0) 44px 97px),
+        linear-gradient(rgba(255, 235, 200, 0.35), transparent 30%, rgba(0, 0, 0, 0.15)),
+        var(--sh-oak);
+    box-shadow: 0 18px 24px -12px rgba(0, 0, 0, 0.6);
+}
+
+.shelf-page .board::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -8px;
+    height: 8px;
+    background: linear-gradient(var(--sh-oak-dark), var(--sh-oak));
+    opacity: 0.6;
+}
+
+/* ===== Book spines ===== */
+.shelf-page .spine {
+    position: relative;
+    flex-shrink: 0;
+    width: var(--w);
+    height: var(--h);
+    padding: 0;
+    border: 0;
+    border-radius: 7px 7px 3px 3px;
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.12) 14%, rgba(255, 240, 210, 0.14) 34%, rgba(255, 240, 210, 0.04) 55%, rgba(0, 0, 0, 0.18) 80%, rgba(0, 0, 0, 0.65)),
+        var(--sh-grain),
+        var(--sh-wear),
+        var(--c);
+    background-size: auto, 160px, 300px, auto;
+    color: var(--sh-gold);
+    cursor: pointer;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35), 4px 0 8px -2px rgba(0, 0, 0, 0.45);
+    transition: transform 0.4s cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+
+.shelf-page .spine:hover,
+.shelf-page .spine:focus-visible {
+    transform: translateY(-14px);
+}
+
+.shelf-page .spine:focus-visible {
+    outline: 2px solid var(--sh-gold-light);
+    outline-offset: 4px;
+}
+
+.shelf-page .spine.pulled {
+    transform: translateY(-46px) rotate(-2deg);
+}
+
+.shelf-page .decor {
+    cursor: default;
+}
+
+.shelf-page .decor:hover {
+    transform: none;
+}
+
+/* Raised bands across the spine */
+.shelf-page .band {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 11px;
+    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(255, 235, 200, 0.22) 35%, rgba(255, 235, 200, 0.08) 60%, rgba(0, 0, 0, 0.5));
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+}
+
+.shelf-page .band.gilt::after {
+    content: "";
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: 4px;
+    border-top: 1px dotted var(--sh-gold);
+    opacity: 0.7;
+}
+
+/* Gold, slightly pressed-in lettering */
+.shelf-page .gold {
+    color: var(--sh-gold);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.7), 0 -1px 0 rgba(255, 230, 160, 0.25);
+}
+
+.shelf-page .vertical {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    writing-mode: vertical-rl;
+    transform: translate(-50%, -50%) rotate(180deg);
+    white-space: nowrap;
+}
+
+/* 01 gilded: dark title plate like the big book in the photo */
+.shelf-page .plate {
+    position: absolute;
+    left: 9%;
+    right: 9%;
+    top: 24%;
+    padding: 10px 4px;
+    border-top: 3px double var(--sh-gold);
+    border-bottom: 3px double var(--sh-gold);
+    background: rgba(40, 22, 8, 0.55);
+    font-family: var(--sh-title-sc);
+    font-size: 1.4rem;
+    line-height: 1.05;
+    text-align: center;
+    letter-spacing: 0.06em;
+}
+
+.shelf-page .plate small {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+}
+
+/* 02 crimson: gold frame and ornaments */
+.shelf-page .style-crimson::before {
+    content: "";
+    position: absolute;
+    inset: 14px 8px;
+    border: 3px double var(--sh-gold);
+    border-radius: 3px;
+    opacity: 0.85;
+}
+
+.shelf-page .style-crimson .vertical {
+    font-family: var(--sh-title);
+    font-style: italic;
+    font-size: 1.7rem;
+}
+
+.shelf-page .ornament {
+    position: absolute;
+    left: 0;
+    right: 0;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+/* 03 cracked black leather */
+.shelf-page .style-cracked {
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1) 14%, rgba(255, 240, 210, 0.1) 34%, rgba(0, 0, 0, 0.18) 80%, rgba(0, 0, 0, 0.65)),
+        var(--sh-grain),
+        var(--sh-cracks),
+        var(--c);
+    background-size: auto, 160px, 200px 400px, auto;
+}
+
+.shelf-page .style-cracked .vertical {
+    font-family: var(--sh-title-sc);
+    font-size: 1.4rem;
+    padding: 12px 5px;
+    background: rgba(14, 11, 9, 0.82);
+    box-shadow: 0 0 0 1px rgba(235, 201, 112, 0.35);
+    letter-spacing: 0.08em;
+    word-spacing: 0.3em;
+}
+
+/* 04 velvet */
+.shelf-page .style-velvet {
+    border-radius: 9px 9px 4px 4px;
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.55), rgba(255, 150, 190, 0.18) 30%, rgba(255, 150, 190, 0.05) 55%, rgba(0, 0, 0, 0.55)),
+        linear-gradient(rgba(255, 255, 255, 0.08), transparent 20%, rgba(0, 0, 0, 0.2) 80%),
+        var(--sh-grain),
+        var(--c);
+    background-size: auto, auto, 120px, auto;
+}
+
+.shelf-page .style-velvet .vertical {
+    font-family: var(--sh-title);
+    font-size: 1.5rem;
+    color: #ffe6ee;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* 05 tan leather with a handwritten paper label */
+.shelf-page .paper-label {
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    padding: 8px 4px;
+    background: var(--sh-grain), linear-gradient(rgba(120, 90, 40, 0.15), transparent), #e9dcbd;
+    background-size: 120px, auto, auto;
+    color: #3b2c1c;
+    font-family: var(--sh-hand);
+    font-weight: 600;
+    line-height: 1.05;
+    text-align: center;
+    text-shadow: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.shelf-page .paper-label.main {
+    top: 16%;
+    font-size: 1.25rem;
+    left: 7%;
+    right: 7%;
+    transform: rotate(-1deg);
+}
+
+.shelf-page .paper-label.small {
+    bottom: 10%;
+    left: 18%;
+    right: 18%;
+    padding: 4px;
+    border: 1px solid rgba(60, 70, 120, 0.5);
+    font-size: 1rem;
+}
+
+/* 06 vellum: pale parchment with ink lettering */
+.shelf-page .style-vellum {
+    color: var(--sh-ink);
+    background:
+        linear-gradient(90deg, rgba(60, 40, 20, 0.35), rgba(0, 0, 0, 0.02) 16%, rgba(255, 255, 255, 0.2) 36%, rgba(0, 0, 0, 0.03) 60%, rgba(60, 40, 20, 0.4)),
+        var(--sh-grain),
+        var(--sh-wear),
+        var(--c);
+    background-size: auto, 160px, 220px, auto;
+}
+
+.shelf-page .style-vellum .vertical {
+    font-family: var(--sh-title);
+    font-size: 1.6rem;
+    color: #22160a;
+}
+
+/* Decorative books that fill the shelf */
+.shelf-page .style-pamphlet {
+    border-radius: 2px;
+}
+
+.shelf-page .style-plain .band {
+    opacity: 0.8;
+}
+
+.shelf-page .style-plain .vertical {
+    font-family: var(--sh-title-sc);
+    font-size: 1.45rem;
+    letter-spacing: 0.08em;
+    word-spacing: 0.3em;
+}
+
+.shelf-page .shelf-foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    margin: 18px 0 16px;
+    font-size: 1rem;
+    color: #d6ccba;
+}
+
+.shelf-page .shelf-foot a {
+    color: var(--sh-gold-light);
+}
+
+/* ===== Open book ===== */
+.shelf-page .reader {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 16px;
+    background: rgba(20, 16, 12, 0.85);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s;
+}
+
+.shelf-page .reader.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.shelf-page .stage {
+    perspective: 2200px;
+}
+
+.shelf-page .book {
+    --page-w: min(380px, 44vw);
+    --page-h: min(520px, 72vh);
+    position: relative;
+    width: calc(var(--page-w) * 2);
+    height: var(--page-h);
+    transform: scale(0.6) translateX(-25%);
+    transition: transform 0.6s ease;
+}
+
+.shelf-page .reader.open .book {
+    transform: translateX(-25%);
+}
+
+.shelf-page .reader.open .book.mid {
+    transform: none;
+}
+
+.shelf-page .reader.open .book.end {
+    transform: translateX(25%);
+}
+
+.shelf-page .leaf {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.shelf-page .leaf.flipped {
+    transform: rotateY(-180deg);
+}
+
+.shelf-page .face {
+    position: absolute;
+    inset: 0;
+    overflow: auto;
+    padding: 38px 34px;
+    backface-visibility: hidden;
+    color: var(--sh-ink);
+    background:
+        linear-gradient(90deg, rgba(90, 60, 25, 0.25), transparent 9%),
+        radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(120, 85, 40, 0.22)),
+        var(--sh-paper-grain),
+        var(--sh-paper);
+    background-size: auto, auto, 160px, auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.shelf-page .face.reverse {
+    transform: rotateY(180deg);
+    background:
+        linear-gradient(270deg, rgba(90, 60, 25, 0.25), transparent 9%),
+        radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(120, 85, 40, 0.22)),
+        var(--sh-paper-grain),
+        var(--sh-paper);
+    background-size: auto, auto, 160px, auto;
+}
+
+.shelf-page .face h2 {
+    margin: 0 0 14px;
+    font-family: var(--sh-title);
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1.15;
+}
+
+.shelf-page .face p,
+.shelf-page .face li {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.shelf-page .face ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.shelf-page .face li + li {
+    margin-top: 6px;
+}
+
+.shelf-page .chapter {
+    margin: 0 0 6px;
+    font-family: var(--sh-title-sc);
+    font-size: 0.95rem;
+    letter-spacing: 0.14em;
+    color: var(--sh-ink-muted);
+}
+
+.shelf-page .chapter::after {
+    content: "❦";
+    display: block;
+    margin-top: 6px;
+    font-size: 1.1rem;
+    color: #8a6a3a;
+}
+
+.shelf-page .page-no {
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: var(--sh-title);
+    font-size: 0.9rem;
+    color: var(--sh-ink-muted);
+}
+
+/* Leather covers */
+.shelf-page .face.cover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 40px;
+    text-align: center;
+    color: var(--sh-gold);
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.5), transparent 8%, transparent 92%, rgba(0, 0, 0, 0.3)),
+        var(--sh-grain),
+        var(--sh-wear),
+        var(--c);
+    background-size: auto, 160px, 300px, auto;
+}
+
+.shelf-page .face.cover.vellum {
+    color: #3a2a18;
+}
+
+.shelf-page .cover-frame {
+    position: absolute;
+    inset: 22px;
+    border: 3px double currentColor;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.shelf-page .cover .type {
+    margin: 0;
+    font-family: var(--sh-title-sc);
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+}
+
+.shelf-page .cover h2 {
+    margin: 14px 0;
+    font-size: 2.4rem;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.shelf-page .cover.vellum h2 {
+    text-shadow: none;
+}
+
+.shelf-page .cover .author {
+    margin: 0;
+    font-family: var(--sh-title);
+    font-style: italic;
+    font-size: 1.05rem;
+}
+
+.shelf-page .cover .ornament-line {
+    margin: 6px 0;
+    font-size: 1.4rem;
+}
+
+.shelf-page .shelf-shot {
+    margin: 0 0 18px;
+    border: 6px solid #fff;
+    box-shadow: 0 2px 6px rgba(60, 40, 20, 0.35);
+    transform: rotate(-1deg);
+}
+
+.shelf-page .shelf-lead {
+    font-family: var(--sh-title);
+    font-size: 1.2rem !important;
+    font-style: italic;
+}
+
+.shelf-page .shelf-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin: 14px 0 26px;
+    padding: 0 !important;
+    list-style: none;
+}
+
+.shelf-page .shelf-chips li {
+    margin: 0 !important;
+    padding: 2px 10px;
+    border: 1px solid currentColor;
+    font-family: var(--sh-title);
+    font-size: 0.95rem !important;
+}
+
+.shelf-page .shelf-links {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 220px;
+}
+
+.shelf-page .shelf-links a {
+    display: block;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: var(--sh-gold);
+    color: #2a1a0c;
+    font-family: var(--sh-title-sc);
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+}
+
+.shelf-page .shelf-links a.ghost {
+    background: transparent;
+    border: 1px solid currentColor;
+    color: inherit;
+}
+
+.shelf-page .cover.vellum .shelf-links a {
+    background: #3a2a18;
+    color: var(--sh-paper);
+}
+
+.shelf-page .cover.vellum .shelf-links a.ghost {
+    background: transparent;
+    color: #3a2a18;
+}
+
+/* Smaller photo at the top of a chapter */
+.shelf-page .figure {
+    width: 100%;
+    height: 115px;
+    margin: 0 0 14px;
+    object-fit: cover;
+    border: 5px solid #fff;
+    box-shadow: 0 2px 6px rgba(60, 40, 20, 0.35);
+    transform: rotate(0.6deg);
+}
+
+.shelf-page .face:has(.figure) .chapter::after {
+    display: none;
+}
+
+/* Links inside the pages */
+.shelf-page .page-links {
+    margin-top: 14px !important;
+    font-family: var(--sh-title);
+    font-size: 1.05rem !important;
+}
+
+.shelf-page .page-links a {
+    color: #7a4a17;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+}
+
+.shelf-page .page-links a + a {
+    margin-left: 14px;
+}
+
+.shelf-page .entry-no {
+    margin: 0;
+    font-family: var(--sh-title-sc);
+    font-size: 0.95rem;
+    letter-spacing: 0.14em;
+    color: var(--sh-ink-muted);
+}
+
+/* Controls */
+.shelf-page .controls {
+    display: flex;
+    gap: 10px;
+}
+
+.shelf-page .controls button {
+    padding: 8px 18px;
+    border: 1px solid var(--sh-gold);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--sh-gold-light);
+    font-family: var(--sh-title-sc);
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+}
+
+.shelf-page .controls button:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.shelf-page .controls .close {
+    background: var(--sh-gold);
+    color: #2a1a0c;
+}
+
+/* ===== Phones: one page at a time ===== */
+@media (max-width: 700px) {
+    .shelf-page .shelf-wall {
+        padding: 32px 4px 4px;
+    }
+
+    .shelf-page .shelf {
+        padding: 0 8px;
+    }
+
+    .shelf-page .books {
+        gap: 2px;
+        padding: 0;
+        min-height: 250px;
+    }
+
+    .shelf-page .band {
+        height: 7px;
+    }
+
+    .shelf-page .ornament {
+        font-size: 0.9rem;
+    }
+
+    .shelf-page .style-cracked .vertical {
+        padding: 8px 3px;
+    }
+
+    .shelf-page .controls {
+        gap: 6px;
+    }
+
+    .shelf-page .controls button {
+        padding: 8px 10px;
+        font-size: 0.88rem;
+        white-space: nowrap;
+    }
+
+    .shelf-page .spine {
+        width: calc(var(--w) * 0.45);
+        height: calc(var(--h) * 0.72);
+    }
+
+    .shelf-page .decor {
+        display: none;
+    }
+
+    .shelf-page .plate {
+        font-size: 0.6rem;
+        padding: 5px 1px;
+    }
+
+    .shelf-page .plate small {
+        font-size: 0.45rem;
+    }
+
+    .shelf-page .vertical {
+        font-size: 0.82rem !important;
+    }
+
+    .shelf-page .paper-label.main {
+        left: 6%;
+        right: 6%;
+        font-size: 0.62rem;
+    }
+
+    .shelf-page .paper-label.small {
+        font-size: 0.55rem;
+    }
+
+    .shelf-page .book {
+        --page-w: min(360px, calc(100vw - 32px));
+        width: var(--page-w);
+    }
+
+    .shelf-page .reader.open .book,
+    .shelf-page .reader.open .book.mid,
+    .shelf-page .reader.open .book.end {
+        transform: none;
+    }
+
+    .shelf-page .leaf {
+        left: 0;
+        width: 100%;
+    }
+
+    .shelf-page .leaf.flipped {
+        opacity: 0;
+        transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.3s 0.5s;
+    }
+
+    .shelf-page .face {
+        padding: 30px 24px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shelf-page .spine,
+    .shelf-page .book,
+    .shelf-page .leaf,
+    .shelf-page .reader {
+        transition: none !important;
+    }
+}
+
+/* Bookshelf: hover on the buttons and links inside the books */
+.shelf-page .shelf-links a,
+.shelf-page .page-links a,
+.shelf-page .controls button {
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.shelf-page .shelf-links a:hover,
+.shelf-page .shelf-links a:focus-visible {
+    background: var(--sh-gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
+}
+
+.shelf-page .shelf-links a.ghost:hover,
+.shelf-page .shelf-links a.ghost:focus-visible {
+    background: rgba(235, 201, 112, 0.18);
+}
+
+/* The main button gets the strongest hover */
+.shelf-page .shelf-links a.case:hover,
+.shelf-page .shelf-links a.case:focus-visible {
+    background: var(--sh-gold);
+    color: #2a1a0c;
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 0 0 2px var(--sh-gold-light), 0 10px 22px rgba(0, 0, 0, 0.5);
+}
+
+.shelf-page .cover.vellum .shelf-links a:hover {
+    background: #5a4128;
+}
+
+.shelf-page .cover.vellum .shelf-links a.ghost:hover {
+    background: rgba(58, 42, 24, 0.12);
+}
+
+.shelf-page .cover.vellum .shelf-links a.case:hover,
+.shelf-page .cover.vellum .shelf-links a.case:focus-visible {
+    background: #3a2a18;
+    color: var(--sh-paper);
+    box-shadow: 0 0 0 2px rgba(58, 42, 24, 0.35), 0 10px 22px rgba(0, 0, 0, 0.35);
+}
+
+.shelf-page .page-links a:hover,
+.shelf-page .page-links a:focus-visible {
+    color: #4a2808;
+    border-bottom-width: 2px;
+}
+
+.shelf-page .controls button:hover:not(:disabled) {
+    background: rgba(235, 201, 112, 0.16);
+    transform: translateY(-1px);
+}
+
+.shelf-page .controls .close:hover {
+    background: var(--sh-gold-light);
 }

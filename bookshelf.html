@@ -3,480 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Bookshelf | Anasztázia Karalyos-Kecskés</title>
-    <meta name="description" content="Prototype: Anasztázia's projects as books on a shelf. Pull one out and flip through it.">
+    <title>My bookshelf | Anasztázia Karalyos-Kecskés</title>
+    <meta name="description" content="Anasztázia's case studies as old books on a shelf. Take one down and read it page by page.">
     <link rel="icon" href="assets/images/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
-    <style>
-        /* ===== Colours and base ===== */
-        :root {
-            --wall: #f3ede4;
-            --wall-shade: #e8dfd2;
-            --wood: #8a5a3b;
-            --wood-dark: #5e3b25;
-            --wood-light: #a8754f;
-            --paper: #fbf7ef;
-            --paper-edge: #efe6d6;
-            --ink: #2b2420;
-            --ink-muted: #6d6158;
-            --accent: #6c3483;
-            --serif: 'Fraunces', Georgia, serif;
-            --sans: 'Inter', 'Segoe UI', Arial, sans-serif;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background:
-                radial-gradient(ellipse at top, #fbf7f1 0%, transparent 60%),
-                linear-gradient(var(--wall), var(--wall-shade));
-            color: var(--ink);
-            font-family: var(--sans);
-            line-height: 1.6;
-        }
-
-        img {
-            display: block;
-            max-width: 100%;
-        }
-
-        /* ===== Header ===== */
-        .intro {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 56px 16px 24px;
-            text-align: center;
-        }
-
-        .intro h1 {
-            margin: 0 0 8px;
-            font-family: var(--serif);
-            font-size: clamp(2rem, 5vw, 3rem);
-        }
-
-        .intro p {
-            margin: 0 auto;
-            max-width: 560px;
-            color: var(--ink-muted);
-        }
-
-        .classic {
-            display: inline-block;
-            margin-top: 16px;
-            color: var(--accent);
-            font-size: 0.9rem;
-        }
-
-        /* ===== Shelf ===== */
-        .shelf {
-            max-width: 900px;
-            margin: 32px auto 80px;
-            padding: 0 16px;
-        }
-
-        .books {
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 6px;
-            min-height: 300px;
-            padding: 0 24px;
-        }
-
-        .shelf-board {
-            height: 22px;
-            border-radius: 3px;
-            background: linear-gradient(var(--wood-light), var(--wood) 40%, var(--wood-dark));
-            box-shadow: 0 14px 18px -8px rgba(60, 35, 20, 0.45);
-        }
-
-        .spine {
-            position: relative;
-            width: var(--w, 58px);
-            height: var(--h, 260px);
-            padding: 18px 0;
-            border: 0;
-            border-radius: 3px 3px 0 0;
-            background:
-                linear-gradient(90deg, rgba(0, 0, 0, 0.25), transparent 12%, transparent 85%, rgba(0, 0, 0, 0.3)),
-                var(--c);
-            color: #fff;
-            cursor: pointer;
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-            transition: transform 0.35s ease;
-        }
-
-        .spine::before,
-        .spine::after {
-            content: "";
-            position: absolute;
-            left: 8px;
-            right: 8px;
-            height: 3px;
-            background: rgba(255, 215, 140, 0.7);
-        }
-
-        .spine::before {
-            top: 10px;
-        }
-
-        .spine::after {
-            bottom: 10px;
-        }
-
-        .spine:hover,
-        .spine:focus-visible {
-            transform: translateY(-14px);
-        }
-
-        .spine:focus-visible {
-            outline: 3px solid var(--accent);
-            outline-offset: 3px;
-        }
-
-        .spine.pulled {
-            transform: translateY(-40px) rotate(-3deg);
-        }
-
-        .spine-title {
-            display: block;
-            writing-mode: vertical-rl;
-            transform: rotate(180deg);
-            margin: 0 auto;
-            font-family: var(--serif);
-            font-size: 1.05rem;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            white-space: nowrap;
-        }
-
-        .spine-tag {
-            position: absolute;
-            bottom: 22px;
-            left: 0;
-            right: 0;
-            font-size: 0.62rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            opacity: 0.8;
-        }
-
-        .bookend {
-            align-self: flex-end;
-            width: 30px;
-            height: 120px;
-            border-radius: 4px 4px 0 0;
-            background: linear-gradient(135deg, #9b59b6, var(--accent) 60%, #4a235a);
-        }
-
-        .hint {
-            margin-top: 16px;
-            text-align: center;
-            color: var(--ink-muted);
-            font-size: 0.9rem;
-        }
-
-        /* ===== Open book ===== */
-        .reader {
-            position: fixed;
-            inset: 0;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            padding: 16px;
-            background: rgba(35, 25, 20, 0.72);
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.35s ease, visibility 0.35s;
-        }
-
-        .reader.open {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .stage {
-            perspective: 2200px;
-        }
-
-        .book {
-            --page-w: min(380px, 44vw);
-            --page-h: min(520px, 72vh);
-            position: relative;
-            width: calc(var(--page-w) * 2);
-            height: var(--page-h);
-            transform: scale(0.6) translateX(-25%);
-            transition: transform 0.6s ease;
-        }
-
-        .reader.open .book {
-            transform: translateX(-25%);
-        }
-
-        .reader.open .book.mid {
-            transform: none;
-        }
-
-        .reader.open .book.end {
-            transform: translateX(25%);
-        }
-
-        .leaf {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 50%;
-            height: 100%;
-            transform-origin: left center;
-            transform-style: preserve-3d;
-            transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1);
-        }
-
-        .leaf.flipped {
-            transform: rotateY(-180deg);
-        }
-
-        .face {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
-            padding: 36px 32px;
-            backface-visibility: hidden;
-            background: linear-gradient(90deg, var(--paper-edge), var(--paper) 8%);
-            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04), 0 10px 30px rgba(0, 0, 0, 0.25);
-        }
-
-        .face.back {
-            transform: rotateY(180deg);
-            background: linear-gradient(270deg, var(--paper-edge), var(--paper) 8%);
-        }
-
-        .face h2 {
-            margin: 0 0 12px;
-            font-family: var(--serif);
-            font-size: 1.5rem;
-            line-height: 1.2;
-        }
-
-        .face p,
-        .face li {
-            font-size: 0.92rem;
-        }
-
-        .face ul {
-            padding-left: 18px;
-        }
-
-        .chapter {
-            margin: 0 0 4px;
-            color: var(--accent);
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-        }
-
-        .page-no {
-            position: absolute;
-            bottom: 14px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            color: var(--ink-muted);
-            font-size: 0.75rem;
-        }
-
-        /* Cover and back cover */
-        .face.cover {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 40px;
-            color: #fff;
-            background:
-                linear-gradient(90deg, rgba(0, 0, 0, 0.35), transparent 6%),
-                var(--c);
-            text-align: center;
-        }
-
-        .face.cover.back {
-            background:
-                linear-gradient(270deg, rgba(0, 0, 0, 0.35), transparent 6%),
-                var(--c);
-        }
-
-        .cover-frame {
-            padding: 32px 16px;
-            border: 2px solid rgba(255, 215, 140, 0.7);
-        }
-
-        .cover h2 {
-            font-size: 2rem;
-        }
-
-        .cover .type {
-            margin: 0;
-            font-size: 0.8rem;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            opacity: 0.85;
-        }
-
-        .cover .author {
-            margin: 28px 0 0;
-            font-family: var(--serif);
-            font-style: italic;
-            opacity: 0.85;
-        }
-
-        .shot {
-            margin: 4px 0 16px;
-            border-radius: 4px;
-        }
-
-        .lead {
-            font-family: var(--serif);
-            font-size: 1.05rem !important;
-            font-style: italic;
-        }
-
-        .chips {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 6px;
-            margin: 16px 0 24px;
-            padding: 0;
-            list-style: none;
-        }
-
-        .chips li {
-            padding: 3px 10px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.15);
-            font-size: 0.78rem !important;
-        }
-
-        .cover a {
-            display: block;
-            margin: 8px auto 0;
-            padding: 8px 14px;
-            max-width: 220px;
-            border-radius: 4px;
-            background: #fff;
-            color: var(--ink);
-            font-weight: 600;
-            font-size: 0.88rem;
-            text-decoration: none;
-        }
-
-        .cover a.ghost {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            color: #fff;
-        }
-
-        /* Controls */
-        .controls {
-            display: flex;
-            gap: 10px;
-        }
-
-        .controls button {
-            padding: 10px 18px;
-            border: 0;
-            border-radius: 999px;
-            background: var(--paper);
-            color: var(--ink);
-            font: 600 0.9rem var(--sans);
-            cursor: pointer;
-        }
-
-        .controls button:disabled {
-            opacity: 0.4;
-            cursor: default;
-        }
-
-        .controls .close {
-            background: var(--accent);
-            color: #fff;
-        }
-
-        /* ===== Phones: one page at a time ===== */
-        @media (max-width: 700px) {
-            .books {
-                gap: 4px;
-                padding: 0;
-            }
-
-            .spine {
-                width: calc(var(--w, 58px) * 0.78);
-                height: calc(var(--h, 260px) * 0.85);
-            }
-
-            .bookend {
-                display: none;
-            }
-
-            .book {
-                --page-w: min(360px, calc(100vw - 32px));
-                width: var(--page-w);
-            }
-
-            .reader.open .book,
-            .reader.open .book.mid,
-            .reader.open .book.end {
-                transform: none;
-            }
-
-            .leaf {
-                left: 0;
-                width: 100%;
-            }
-
-            .leaf.flipped {
-                opacity: 0;
-                transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.3s 0.5s;
-            }
-
-            .face {
-                padding: 28px 22px;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .spine,
-            .book,
-            .leaf,
-            .reader {
-                transition: none !important;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=EB+Garamond:wght@400;500;600&family=Caveat:wght@500;600&display=swap">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
+<body class="shelf-page">
 
-<header class="intro">
-    <h1>My bookshelf</h1>
-    <p>Every project I've built is a book. Pull one off the shelf and flip through the story: the problem, what I built and what I learned along the way.</p>
-    <a class="classic" href="index.html">Prefer the classic view? Go to the portfolio →</a>
-</header>
+<div class="layout">
 
-<main class="shelf">
-    <div class="books" id="books"></div>
-    <div class="shelf-board"></div>
-    <p class="hint">Click a book to pull it out. Use the arrow keys or the buttons to turn the pages.</p>
-</main>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <img class="photo" src="assets/images/profile.webp" alt="Anasztázia Karalyos-Kecskés" width="120" height="120">
+        <h1>Anasztázia <span class="nowrap">Karalyos-Kecskés</span></h1>
+        <p class="role">Web Application Developer</p>
+        <p class="status">Open to remote web developer and automation roles. Based in the UK.</p>
+
+        <nav>
+            <ul class="menu">
+                <li><a href="index.html#profile">Profile</a></li>
+                <li><a href="index.html#projects">Case studies</a></li>
+                <li><a href="bookshelf.html" class="is-active" aria-current="page">Bookshelf 📚</a></li>
+                <li><a href="index.html#how-i-work">How I work</a></li>
+                <li><a href="index.html#experience">Experience</a></li>
+                <li><a href="index.html#education">Education</a></li>
+            </ul>
+        </nav>
+
+        <p class="side-title">Contact</p>
+        <ul class="contact">
+            <li><a href="mailto:kecskes.anasztazia@gmail.com"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>kecskes.anasztazia@gmail.com</span></a></li>
+            <li><a href="tel:+447564040783"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" fill="currentColor"/></svg><span>+44 7564 040783</span></a></li>
+            <li><a href="https://github.com/Anasztazia12" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg><span>github.com/Anasztazia12</span></a></li>
+            <li><a href="https://www.linkedin.com/in/anasztazia-k-096679420/" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11.25H3zM9.5 9.75h3.8v1.6h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.6 4.77 6v5.7h-4v-5.05c0-1.2-.02-2.75-1.7-2.75-1.7 0-1.95 1.3-1.95 2.66V21H9.5z"/></svg><span>LinkedIn</span></a></li>
+            <li><a href="https://www.amethyst-nexalune.co.uk" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9M12 3c-2.5 2.7-3.8 5.7-3.8 9s1.3 6.3 3.8 9"/></g></svg><span>amethyst-nexalune.co.uk</span></a></li>
+        </ul>
+
+        <a class="cv-button" href="assets/pdf/CV_Anasztazia_Karalyos-Kecskes.pdf" download>Download CV (PDF)</a>
+    </aside>
+
+    <!-- Bookshelf -->
+    <main class="content">
+        <a class="back" href="index.html#projects">← All case studies</a>
+
+        <p class="case-type">Selected work</p>
+        <h1 class="page-title">My bookshelf</h1>
+        <p class="lead">Every project is a book on my shelf. Take one down to read the problem, what I built and the decisions behind it.</p>
+
+        <section class="shelf-wall" aria-label="Bookshelf">
+            <div class="shelf">
+                <div class="books" id="books"></div>
+                <div class="board"></div>
+                <div class="shelf-foot">
+                    <span>Click a book to take it down · ← → to turn the pages · Esc to put it back</span>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">© 2026 Anasztázia Karalyos-Kecskés</footer>
+    </main>
+</div>
 
 <div class="reader" id="reader" role="dialog" aria-modal="true" aria-label="Open book">
     <div class="stage">
@@ -485,31 +74,32 @@
     <div class="controls">
         <button type="button" id="prev">← Previous</button>
         <button type="button" id="next">Next →</button>
-        <button type="button" class="close" id="close">Back to the shelf</button>
+        <button type="button" class="close" id="close">Put it back</button>
     </div>
 </div>
 
 <script>
     // Each project is one book. Text comes from the case study pages.
-    const projects = [
+    // style = how the spine looks, bands = where the raised bands sit (% from the top)
+    // chapters = the pages after the intro page (keep it at 5 so every book has 8 pages)
+    const books = [
         {
             title: 'Client Portal',
             type: 'Full-stack web app',
-            color: '#1f3a5f',
-            width: 64,
-            height: 270,
+            tag: 'Django',
+            style: 'gilded',
+            color: '#7a5524',
+            width: 128,
+            height: 330,
+            bands: [10, 58, 70, 82],
             image: 'client-portal-responsive-devices-mockup.webp',
             lead: 'A portal where a business asks clients for documents, clients upload them, and staff review each file.',
-            problem: 'Accountants, law firms and estate agents need documents from every new client. Usually these arrive by email. Files get lost in inboxes, staff keep chasing clients, and nobody can see at a glance what is still missing.',
-            built: [
-                '<strong>Client side:</strong> a checklist of requested documents, drag-and-drop uploads, and a clear approved or rejected status with the reason.',
-                '<strong>Staff side:</strong> a console with a progress bar for each client, new requests with due dates, and approve or reject with a note.'
-            ],
-            notesTitle: 'Decisions I made',
-            notes: [
-                'A custom staff console instead of the Django admin.',
-                'A daily command instead of a task queue.',
-                'Two versions of the demo: a working Django app and a polished front-end showcase.'
+            chapters: [
+                ['The problem', `<p>Accountants, law firms and estate agents need documents from every new client: a company extract, a signature specimen, a tax certificate.</p><p>Usually these arrive by email. Files get lost in inboxes, staff have to keep chasing clients, and nobody can see at a glance what is still missing.</p>`, 'client-portal-tablet-phone.webp'],
+                ['What I built', `<p>A Django app with two sides:</p><ul><li><strong>Client side:</strong> the client logs in and sees a checklist of the documents requested from them. They upload each file with drag and drop, and can see whether it was approved or rejected, and why.</li><li><strong>Staff side:</strong> a console with a list of clients and a progress bar for each. Staff can send a new request with a due date, and approve or reject uploads with a note.</li></ul>`],
+                ['Technical details', `<ul><li>Three related models: a Client has many DocumentRequests, and each request has many UploadedDocuments, so a rejected file can be replaced without losing its history.</li><li>Role-based routing: staff go to <em>/staff/</em>, clients to their own checklist.</li><li>Management commands: <em>send_reminders</em> emails clients 3+ days overdue, <em>seed_demo</em> creates demo data.</li><li>Server-rendered Django templates, deployed on Render from a <em>render.yaml</em> blueprint.</li></ul>`],
+                ['Decisions I made', `<p><strong>A custom staff console instead of the Django admin.</strong> The admin is not designed for daily office work; a console with a progress bar per client is faster.</p><p><strong>A daily command instead of a task queue.</strong> Celery and Redis would add a lot of setup for something this small.</p><p><strong>Two versions of the demo.</strong> Next to the Django app, a polished front-end showcase with an English/Hungarian switch.</p>`],
+                ['What I would do next', `<ul><li>Encrypt uploaded files at rest.</li><li>Production hardening: turn off debug mode, restrict allowed hosts and rate-limit the login.</li><li>Send real emails through an email service.</li><li>Move reminders to a task queue if the number of clients grows.</li></ul>`, 'client-portal-laptop-checklist.webp']
             ],
             stack: ['Python', 'Django', 'SQLite', 'Render'],
             live: 'https://client-portal-demo-1.onrender.com',
@@ -518,23 +108,20 @@
         {
             title: 'WorkCafe',
             type: 'Full-stack web app',
-            color: '#2e5e4e',
-            width: 56,
-            height: 245,
+            tag: 'Django',
+            style: 'crimson',
+            color: '#8e1d24',
+            width: 62,
+            height: 296,
+            bands: [],
             image: 'workcafe-responsive-devices-mockup.webp',
             lead: 'A café finder for people who work remotely: where is the good wifi, the power socket and the quiet corner?',
-            problem: 'Students, freelancers and remote workers need somewhere to work for a few hours, but they don\'t know which cafés nearby have decent wifi, sockets and a quiet corner. Good tips get shared in group chats and then forgotten.',
-            built: [
-                'A searchable café directory with a map, open to everyone without an account.',
-                'Each café shows its wifi speed, power sockets and how quiet it usually is.',
-                'Registered users can add, edit and delete their own cafés and save favourites.'
-            ],
-            notesTitle: 'Bugs I fixed',
-            notes: [
-                'The weather showed 290 degrees.',
-                'The map stopped loading on the live site.',
-                'Pages returned 404 on Heroku.',
-                'Cafés appeared in the wrong place on the map.'
+            chapters: [
+                ['The problem', `<p>Students, freelancers and remote workers often need somewhere to work for a few hours. They do not know which cafés nearby have decent wifi, power sockets and a quiet corner, and good tips get shared in group chats and then forgotten.</p><h3>What I built</h3><p>A searchable café directory with a map. Each café shows its wifi speed, power sockets and how quiet it is. Registered users can add cafés, edit or delete their own, and save favourites.</p>`],
+                ['Technical details', `<ul><li>Relational data model with the Django ORM on PostgreSQL.</li><li>Django authentication with full CRUD on cafés; only the owner can edit or delete one.</li><li>Current weather from the OpenWeatherMap API, called from Python.</li><li>Interactive map with Leaflet and Esri tiles.</li><li>Deployed on Heroku with gunicorn and WhiteNoise.</li><li>Planned with user stories on a GitHub Project board.</li></ul>`],
+                ['Testing', `<p>8 automated tests with Django's TestCase. They cover the homepage, sign-up, a failed login, login-required pages, adding a café, permissions, favourites and deleting.</p><p>I also tested every user story by hand in Edge, Firefox and on an iPhone, and validated the HTML and CSS with the W3C validators.</p>`, 'workcafe-signup.webp'],
+                ['Bugs I fixed', `<p><strong>The weather showed 290 degrees.</strong> The request was missing <em>units: metric</em>, so the API returned Kelvin.</p><p><strong>The map stopped loading online.</strong> OpenStreetMap tiles are not meant for public apps, so I switched to Esri's free tiles.</p><p><strong>Pages returned 404 on Heroku.</strong> I added real views, templates and URLs for every page.</p><p><strong>Cafés in the wrong place.</strong> Two seed cafés had latitude and longitude swapped.</p>`],
+                ['What I learned', `<p>Things can work fine on my computer and break once the site is online: the map tiles and static files only caused problems after deployment. Next time I would decide on the database models first.</p>`, 'workcafe-map.webp']
             ],
             stack: ['Python', 'Django', 'PostgreSQL', 'Leaflet', 'Heroku'],
             live: 'https://workcafe-app-4f1f130b7d49.herokuapp.com/',
@@ -544,22 +131,20 @@
         {
             title: 'Pergola Calculator',
             type: 'Client project',
-            color: '#7a3b2e',
-            width: 70,
-            height: 285,
+            tag: 'Babylon.js',
+            style: 'cracked',
+            color: '#1d1916',
+            width: 80,
+            height: 306,
+            bands: [14, 30, 70, 86],
             image: 'pergola-responsive-devices-mockup.webp',
-            lead: 'A 3D configurator for a construction company: change the design and see the materials and the price straight away.',
-            problem: 'For every pergola job the company worked out the concrete, timber and screw quantities by hand in spreadsheets. It was slow, and a mistake in the numbers meant ordering the wrong materials.',
-            built: [
-                'The customer sets the size, roof pitch, wood type and other options.',
-                'The 3D model, the full material list and the price update straight away.',
-                'The bill of materials can be downloaded.'
-            ],
-            notesTitle: 'Challenges and fixes',
-            notes: [
-                'Keeping the pricing formulas private, server-side in Cloud Functions.',
-                'Moving off PHP hosting.',
-                'Handling secrets and local testing.'
+            lead: 'A 3D configurator for a construction company in Hungary: change the design and see the materials and the price straight away.',
+            chapters: [
+                ['The problem', `<p>For every pergola job the company worked out the concrete, timber and screw quantities by hand, using spreadsheets.</p><p>It was slow, and a mistake in the numbers meant ordering the wrong materials.</p>`, 'pergola-3d-poster.webp'],
+                ['What I built', `<p>A web app where the customer sets the size, roof pitch, wood type and other options.</p><p>The 3D model, the full material list and the price estimate update straight away, and the bill of materials can be downloaded.</p>`, 'pergola2-mockup.webp'],
+                ['Technical details', `<ul><li>The 3D pergola is drawn in the browser with Babylon.js and changes with the settings.</li><li>I turned the company's spreadsheet calculations into JavaScript functions.</li><li>The calculation runs in a Firebase Cloud Function on Node.js, so the formulas stay private.</li><li>Separate functions handle cutting optimisation and plan generation.</li><li>Firebase Hosting forwards <em>/api/calculate</em> to the function.</li></ul>`],
+                ['How a calculation works', `<ol><li>The browser sends the chosen settings to <em>/api/calculate</em>.</li><li>The Cloud Function checks where the request comes from and applies a rate limit.</li><li>It runs the formulas and signs the response with a secret key.</li><li>The browser updates the 3D model, the material list and the price.</li></ol>`],
+                ['Challenges and fixes', `<p><strong>Keeping the formulas private.</strong> Anyone can read browser JavaScript, so the calculation moved to a Cloud Function and only results are sent back.</p><p><strong>Moving off PHP hosting.</strong> The first version ran PHP on cPanel; I moved everything to Firebase.</p><p><strong>Secrets and local testing.</strong> The signing key lives in Firebase secrets; locally I use the Emulator Suite.</p>`]
             ],
             stack: ['JavaScript', 'Babylon.js', 'Firebase'],
             live: 'https://pergolakalkulator.com/calculator',
@@ -568,23 +153,20 @@
         {
             title: 'Budgeting App',
             type: 'Web app',
-            color: '#8a6d1f',
-            width: 52,
-            height: 235,
+            tag: 'Firebase',
+            style: 'velvet',
+            color: '#a3163f',
+            width: 64,
+            height: 256,
+            bands: [],
             image: 'budgeting-app.webp',
             lead: 'A budgeting app that also answers "what happens if…?" before you make a money decision.',
-            problem: 'Most budgeting tools only show what you have already spent. People also want to try out a decision first: what if I pay this loan off early, or what if my rent goes up?',
-            built: [
-                '<strong>Budget:</strong> income and expenses with totals and categories.',
-                '<strong>Forecast:</strong> what-if scenarios you can save.',
-                '<strong>Debt manager:</strong> loans and early payoff, linked to the forecast.',
-                '<strong>Monthly summary:</strong> pie and bar charts.'
-            ],
-            notesTitle: 'Challenges and fixes',
-            notes: [
-                'Keeping account data and the database in step.',
-                'Guest mode without mixing data.',
-                'Amounts typed as text.'
+            chapters: [
+                ['The problem', `<p>Most budgeting tools only show what you have already spent.</p><p>People also want to try out a decision first: what if I pay this loan off early, or what if my rent goes up?</p>`, 'budget1.webp'],
+                ['What I built', `<ul><li><strong>Budget:</strong> income and expenses with totals and categories.</li><li><strong>Forecast:</strong> try out what-if scenarios and save them.</li><li><strong>Debt manager:</strong> loans, monthly payments and planned early payoff, linked to the forecast.</li><li><strong>Monthly summary:</strong> pie or bar charts.</li></ul><p>Accounts or guest mode, light and dark theme, Hungarian/English switch.</p>`],
+                ['Technical details', `<ul><li>Firebase Authentication; each user gets a Firestore document at <em>users/{uid}</em> with all their data under it.</li><li>Guests use the app without an account; their data stays in sessionStorage.</li><li>Charts built with Chart.js.</li><li>Shared calculation logic in one script, used by every page and by the tests.</li></ul>`, 'budget3.webp'],
+                ['Testing', `<p>24 unit tests written with Jest.</p><p>The tests load the real browser script instead of a copy of its functions, so they test exactly the code the app runs.</p><p>They cover totals, month boundaries (including February in leap years), filtering by month, guest data and storage keys.</p>`],
+                ['Challenges and fixes', `<p><strong>Account data and the database in step.</strong> A Firestore document is created for every new user at sign-up.</p><p><strong>Guest mode without mixing data.</strong> Guest data has its own keys, checked by the tests.</p><p><strong>Amounts typed as text.</strong> Strings are converted to numbers and missing values count as zero.</p>`, 'budget2.webp']
             ],
             stack: ['JavaScript', 'Firebase', 'Chart.js', 'Jest'],
             live: 'https://anasztazia12.github.io/budgeting',
@@ -594,22 +176,20 @@
         {
             title: 'Northline Gas & Heating',
             type: 'Website and automation',
-            color: '#5b2c6f',
-            width: 74,
-            height: 275,
+            tag: 'Make + AI',
+            style: 'labelled',
+            color: '#8a4f22',
+            width: 96,
+            height: 318,
+            bands: [],
             image: 'plumber-responsive-devices-mockup.webp',
             lead: 'A website for a heating engineer, with a quote form that sorts every request in seconds and flags emergencies straight away.',
-            problem: 'A one-person heating engineer can\'t read emails while working on a boiler. Urgent jobs, like no heating or a smell of gas, sit unread between routine requests, and the customer rings someone else.',
-            built: [
-                '<strong>The website:</strong> hours, emergency call-outs and contact details on the first screen, then a "Request a quote" button.',
-                '<strong>The automation:</strong> a Make scenario where AI sorts each request by job type and urgency, saves it to the job list and alerts the engineer about urgent jobs straight away.'
-            ],
-            notesTitle: 'Decisions I made',
-            notes: [
-                'A keyword safety net for emergencies.',
-                'When unsure, choose urgent.',
-                'Nothing gets lost.',
-                'The engineer decides.'
+            chapters: [
+                ['The problem', `<p>A one-person heating engineer cannot read emails while working on a boiler.</p><p>Urgent jobs, like no heating or a smell of gas, sit unread between routine requests, and the customer rings someone else. The requests are also spread across an inbox, with no single list of jobs.</p>`, 'northline-quote-form.webp'],
+                ['What I built', `<p><strong>The website:</strong> opening hours, emergency call-outs, phone and the area covered on the first screen, then a "Request a quote" button, trust points and services.</p><p><strong>The automation:</strong> each request goes to a Make scenario. AI sorts it by job type and urgency, it is saved to the job list, urgent jobs reach the engineer straight away, and the customer gets a reply in seconds.</p>`],
+                ['How the automation works', `<ol><li><strong>Webhook:</strong> the form sends the request to Make.</li><li><strong>AI step:</strong> the message becomes JSON with job type, urgency and a summary.</li><li><strong>Safety net:</strong> words like gas, leak or no heating always mean urgent.</li><li><strong>Job list:</strong> a new row in Google Sheets.</li><li><strong>Router:</strong> urgent jobs email the engineer at once.</li><li><strong>Instant reply</strong> to the customer.</li></ol>`],
+                ['When AI gets it wrong', `<p><strong>Keyword safety net.</strong> A rule, not the AI, makes sure gas or a leak is always urgent.</p><p><strong>When unsure, choose urgent.</strong> One extra alert costs less than a missed emergency.</p><p><strong>Nothing gets lost.</strong> If the AI fails, the request is still saved and marked "Check".</p><p><strong>The engineer decides.</strong> The original message is always kept.</p>`],
+                ['Testing', `<p>Before going live I ran a set of test requests through the scenario, including several emergencies. Where a request was sorted wrongly, I fixed the AI instruction and ran the tests again.</p>`, 'make-sheet.webp']
             ],
             stack: ['HTML', 'CSS', 'Firebase', 'Make', 'OpenAI', 'Google Sheets'],
             live: 'https://northline-gas.web.app/',
@@ -618,27 +198,46 @@
         {
             title: 'Anne Hair Studio',
             type: 'Website with booking',
-            color: '#9c4f6a',
-            width: 58,
-            height: 255,
+            tag: 'JavaScript',
+            style: 'vellum',
+            color: '#e4d6b8',
+            width: 66,
+            height: 286,
+            bands: [],
             image: 'hair-responsive-devices-mockup.webp',
             lead: 'A website for a one-person hair salon, where clients can see the prices and opening hours and pick a free appointment.',
-            problem: 'A stylist who works alone has no time to answer the same questions all day: what do you offer, what does it cost, when are you open, and how do I book?',
-            built: [
-                'A booking calendar: pick a day, then a free time, then enter your details.',
-                'A full price list and opening hours, with today highlighted.',
-                'On phones, the call and booking buttons stay at the bottom of the screen.'
-            ],
-            notesTitle: 'Decisions I made',
-            notes: [
-                'Weeks start on Monday.',
-                'No times in the past.'
+            chapters: [
+                ['The problem', `<p>A stylist who works alone has no time to answer the same questions all day: what do you offer, what does it cost, when are you open, and how do I book?</p><p>If the answers are hard to find, clients go to a salon that makes it easy.</p>`, 'hair-what-we-do.webp'],
+                ['What I built', `<p>A calm, warm website that answers those questions on the first visit:</p><ul><li>A booking calendar: pick a day, then a free time, then enter your details.</li><li>A full price list and opening hours, with today highlighted.</li><li>On phones, the call and booking buttons stay at the bottom of the screen.</li></ul>`, 'hair-booking-calendar.webp'],
+                ['Technical details', `<ul><li>The booking calendar is plain JavaScript, with no library.</li><li>Opening hours are stored once, in one object; the calendar, time slots, hours table and "Open today" text all read from it.</li><li>The form checks name, email and phone as you type.</li><li>The booking window is a native &lt;dialog&gt;, with a fallback for old browsers.</li></ul>`],
+                ['Challenges and fixes', `<p><strong>Weeks starting on Monday.</strong> JavaScript counts Sunday as day 0, but UK calendars start on Monday, so I shift each month with <em>(getDay() + 6) % 7</em>.</p><p><strong>No times in the past.</strong> On today's date, hours that have gone are disabled, and you cannot go back to an earlier month.</p>`, 'hair-prices-contact.webp'],
+                ['What I would do next', `<p>This version is a front-end demo: booked times are simulated. Next I would:</p><ul><li>Save bookings to a database such as Firestore.</li><li>Stop double bookings by checking the slot again on the server.</li><li>Send a real confirmation email and give the owner a page to manage bookings.</li></ul>`]
             ],
             stack: ['HTML', 'CSS', 'JavaScript', 'Firebase Hosting'],
             live: 'https://anne-hair-studio.web.app/',
             page: 'case-studies/anne-hair-studio.html'
+        },
+        {
+            title: 'Other Projects',
+            type: 'Smaller apps',
+            style: 'plain',
+            color: '#6b4325',
+            width: 112,
+            height: 340,
+            bands: [10, 22, 78, 90],
+            intro: `<p class="shelf-lead">Smaller apps I built to practise and to solve real problems: training, quotes, rentals, a hobby and a game for children.</p><p>Each one has a live demo you can try.</p>`,
+            entries: [
+                ['LaunchTrack LMS', 'Staff training with 11 modules that unlock in order, quizzes with a 90% pass mark and PDF certificates.', 'https://lms-demo-w8lj.onrender.com', null, 'lms-thumb.webp'],
+                ['Quote Tracker', 'Keeps every quote, follow-up date and status in one place, with reminders and one-click acceptance.', 'https://quote-demo.onrender.com', null, 'quote-thumb.webp'],
+                ['Rental Tracker', 'Shows which equipment is out and when it is due back, calculates fees and deposits, and records handovers with a signature.', 'https://rental-demo.onrender.com', null, 'rental-thumb.webp'],
+                ['Fishing Logbook', 'A catch log with photos that works offline and syncs to Supabase, with accounts and password reset.', 'https://fishing-logbook.amethyst-nexalune.co.uk/', 'https://github.com/Anasztazia12/fishing-logbook', 'fishing-logbook.webp'],
+                ['Maths Challenge', 'A timed maths game for children aged 8–9, with progress tracking and avatars.', 'https://maths-challenge.amethyst-nexalune.co.uk/', 'https://github.com/Anasztazia12/Maths-Challenge', 'maths-thumb.webp']
+            ],
+            code: 'https://github.com/Anasztazia12'
         }
     ];
+
+    const romans = ['I', 'II', 'III', 'IV', 'V'];
 
     const booksEl = document.getElementById('books');
     const reader = document.getElementById('reader');
@@ -652,43 +251,69 @@
     let current = 0;
     let activeSpine = null;
 
-    // The six pages of a book, in reading order
-    function pagesFor(p) {
-        const list = items => items.map(i => `<li>${i}</li>`).join('');
-        const links = [
-            `<a href="${p.live}" target="_blank" rel="noopener">Live demo</a>`,
-            p.code ? `<a class="ghost" href="${p.code}" target="_blank" rel="noopener">Code on GitHub</a>` : '',
-            `<a class="ghost" href="${p.page}">Full case study</a>`
-        ].join('');
-
-        return [
-            { cover: true, html: `<div class="cover-frame"><p class="type">${p.type}</p><h2>${p.title}</h2><p class="author">by Anasztázia Karalyos-Kecskés</p></div>` },
-            { html: `<img class="shot" src="assets/images/${p.image}" alt="${p.title} on several devices"><p class="lead">${p.lead}</p>` },
-            { html: `<p class="chapter">Chapter 1</p><h2>The problem</h2><p>${p.problem}</p>` },
-            { html: `<p class="chapter">Chapter 2</p><h2>What I built</h2><ul>${list(p.built)}</ul>` },
-            { html: `<p class="chapter">Chapter 3</p><h2>${p.notesTitle}</h2><ul>${list(p.notes)}</ul>` },
-            { cover: true, html: `<p class="type">Built with</p><ul class="chips">${list(p.stack)}</ul>${links}` }
-        ];
+    // What is printed on each kind of spine
+    function spineHTML(b) {
+        const bands = b.bands.map(top => `<i class="band gilt" style="top:${top}%"></i>`).join('');
+        switch (b.style) {
+            case 'gilded':
+                return `${bands}<div class="plate gold"><small>${b.tag}</small>${b.title}</div>`;
+            case 'crimson':
+                return `<span class="ornament gold" style="top:22px">❦</span><span class="vertical gold">${b.title}</span><span class="ornament gold" style="bottom:22px">❦</span>`;
+            case 'labelled':
+                return `<div class="paper-label main">${b.title}</div><div class="paper-label small">${b.tag}</div>`;
+            default:
+                return `${bands}<span class="vertical gold">${b.title}</span>`;
+        }
     }
 
-    function face(page, side, number, color) {
+    function link(url, text) {
+        return url ? `<a href="${url}" target="_blank" rel="noopener">${text}</a>` : '';
+    }
+
+    // All pages of a book, in reading order: cover, intro, 5 chapters, back cover
+    function pagesFor(b) {
+        const cover = { cover: true, html: `<span class="cover-frame"></span><p class="type">${b.type}</p><div class="ornament-line">❦</div><h2>${b.title}</h2><div class="ornament-line">❦</div><p class="author">by Anasztázia Karalyos-Kecskés</p>` };
+
+        // Case study books
+        if (b.chapters) {
+            const intro = { html: `<img class="shelf-shot" src="assets/images/${b.image}" alt="${b.title} on several devices"><p class="shelf-lead">${b.lead}</p><p class="page-links">${link(b.live, 'Visit the live site ↗')}</p>` };
+            const chapters = b.chapters.map(([title, body, img], i) => ({ html: `<p class="chapter">Chapter ${romans[i]}</p><h2>${title}</h2>${img ? `<img class="figure" src="assets/images/${img}" alt="${b.title}: ${title}">` : ''}${body}` }));
+            const links = [
+                link(b.live, 'Live demo'),
+                b.code ? `<a class="ghost" href="${b.code}" target="_blank" rel="noopener">Code on GitHub</a>` : '',
+                `<a class="ghost case" href="${b.page}">Full case study →</a>`
+            ].join('');
+            const back = { cover: true, html: `<span class="cover-frame"></span><p class="type">Built with</p><ul class="shelf-chips">${b.stack.map(s => `<li>${s}</li>`).join('')}</ul><div class="shelf-links">${links}</div>` };
+            return [cover, intro, ...chapters, back];
+        }
+
+        // The "Other Projects" book: one page per project
+        const intro = { html: `<p class="chapter">Contents</p><h2>Other projects</h2>${b.intro}` };
+        const entries = b.entries.map(([name, text, live, code, image], i) => ({
+            html: `<img class="shelf-shot" src="assets/images/${image}" alt="${name} screenshot"><p class="entry-no">No. ${i + 1}</p><h2>${name}</h2><p>${text}</p><p class="page-links">${link(live, 'Live demo ↗')}${link(code, 'Code ↗')}</p>`
+        }));
+        const back = { cover: true, html: `<span class="cover-frame"></span><p class="type">More of my work</p><div class="ornament-line">❦</div><div class="shelf-links"><a href="${b.code}" target="_blank" rel="noopener">GitHub profile</a><a class="ghost" href="index.html">Back to the portfolio</a></div>` };
+        return [cover, intro, ...entries, back];
+    }
+
+    function face(page, side, number, b) {
         if (!page) {
             return `<div class="face ${side}"></div>`;
         }
-        const cls = page.cover ? 'face cover' : 'face';
+        const cls = page.cover ? `face cover ${b.style}` : 'face';
         const no = page.cover ? '' : `<span class="page-no">${number}</span>`;
-        return `<div class="${cls} ${side}" style="--c:${color}">${page.html}${no}</div>`;
+        return `<div class="${cls} ${side}" style="--c:${b.color}">${page.html}${no}</div>`;
     }
 
     // Spread view: two pages per leaf. Phone view: one page per leaf.
-    function buildBook(p) {
-        const pages = pagesFor(p);
+    function buildBook(b) {
+        const pages = pagesFor(b);
         const perLeaf = phone.matches ? 1 : 2;
         let html = '';
 
         for (let i = 0; i < pages.length; i += perLeaf) {
             const back = perLeaf === 2 ? pages[i + 1] : null;
-            html += `<div class="leaf">${face(pages[i], 'front', i, p.color)}${face(back, 'back', i + 1, p.color)}</div>`;
+            html += `<div class="leaf">${face(pages[i], 'front', i, b)}${face(back, 'reverse', i + 1, b)}</div>`;
         }
 
         bookEl.innerHTML = html;
@@ -726,14 +351,14 @@
         nextBtn.disabled = current === last;
     }
 
-    function openBook(p, spine) {
+    function openBook(b, spine) {
         activeSpine = spine;
         spine.classList.add('pulled');
-        buildBook(p);
+        buildBook(b);
         setTimeout(() => {
             reader.classList.add('open');
             nextBtn.focus();
-        }, 350);
+        }, 400);
     }
 
     function closeBook() {
@@ -745,21 +370,16 @@
         }
     }
 
-    projects.forEach(p => {
+    books.forEach(b => {
         const spine = document.createElement('button');
         spine.type = 'button';
-        spine.className = 'spine';
-        spine.style.cssText = `--c:${p.color};--w:${p.width}px;--h:${p.height}px`;
-        spine.setAttribute('aria-label', `Open the ${p.title} book`);
-        spine.innerHTML = `<span class="spine-title">${p.title}</span>`;
-        spine.addEventListener('click', () => openBook(p, spine));
+        spine.className = `spine style-${b.style}`;
+        spine.style.cssText = `--c:${b.color};--w:${b.width}px;--h:${b.height}px`;
+        spine.setAttribute('aria-label', `Open the ${b.title} book`);
+        spine.innerHTML = spineHTML(b);
+        spine.addEventListener('click', () => openBook(b, spine));
         booksEl.appendChild(spine);
     });
-
-    const bookend = document.createElement('div');
-    bookend.className = 'bookend';
-    bookend.setAttribute('aria-hidden', 'true');
-    booksEl.appendChild(bookend);
 
     prevBtn.addEventListener('click', () => turn(-1));
     nextBtn.addEventListener('click', () => turn(1));
