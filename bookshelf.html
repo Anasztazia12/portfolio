@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookshelf | Anasztázia Karalyos-Kecskés</title>
+    <meta name="description" content="Prototype: Anasztázia's projects as books on a shelf. Pull one out and flip through it.">
+    <link rel="icon" href="assets/images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        /* ===== Colours and base ===== */
+        :root {
+            --wall: #f3ede4;
+            --wall-shade: #e8dfd2;
+            --wood: #8a5a3b;
+            --wood-dark: #5e3b25;
+            --wood-light: #a8754f;
+            --paper: #fbf7ef;
+            --paper-edge: #efe6d6;
+            --ink: #2b2420;
+            --ink-muted: #6d6158;
+            --accent: #6c3483;
+            --serif: 'Fraunces', Georgia, serif;
+            --sans: 'Inter', 'Segoe UI', Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse at top, #fbf7f1 0%, transparent 60%),
+                linear-gradient(var(--wall), var(--wall-shade));
+            color: var(--ink);
+            font-family: var(--sans);
+            line-height: 1.6;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        /* ===== Header ===== */
+        .intro {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 56px 16px 24px;
+            text-align: center;
+        }
+
+        .intro h1 {
+            margin: 0 0 8px;
+            font-family: var(--serif);
+            font-size: clamp(2rem, 5vw, 3rem);
+        }
+
+        .intro p {
+            margin: 0 auto;
+            max-width: 560px;
+            color: var(--ink-muted);
+        }
+
+        .classic {
+            display: inline-block;
+            margin-top: 16px;
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        /* ===== Shelf ===== */
+        .shelf {
+            max-width: 900px;
+            margin: 32px auto 80px;
+            padding: 0 16px;
+        }
+
+        .books {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 6px;
+            min-height: 300px;
+            padding: 0 24px;
+        }
+
+        .shelf-board {
+            height: 22px;
+            border-radius: 3px;
+            background: linear-gradient(var(--wood-light), var(--wood) 40%, var(--wood-dark));
+            box-shadow: 0 14px 18px -8px rgba(60, 35, 20, 0.45);
+        }
+
+        .spine {
+            position: relative;
+            width: var(--w, 58px);
+            height: var(--h, 260px);
+            padding: 18px 0;
+            border: 0;
+            border-radius: 3px 3px 0 0;
+            background:
+                linear-gradient(90deg, rgba(0, 0, 0, 0.25), transparent 12%, transparent 85%, rgba(0, 0, 0, 0.3)),
+                var(--c);
+            color: #fff;
+            cursor: pointer;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+            transition: transform 0.35s ease;
+        }
+
+        .spine::before,
+        .spine::after {
+            content: "";
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            height: 3px;
+            background: rgba(255, 215, 140, 0.7);
+        }
+
+        .spine::before {
+            top: 10px;
+        }
+
+        .spine::after {
+            bottom: 10px;
+        }
+
+        .spine:hover,
+        .spine:focus-visible {
+            transform: translateY(-14px);
+        }
+
+        .spine:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        .spine.pulled {
+            transform: translateY(-40px) rotate(-3deg);
+        }
+
+        .spine-title {
+            display: block;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            margin: 0 auto;
+            font-family: var(--serif);
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        .spine-tag {
+            position: absolute;
+            bottom: 22px;
+            left: 0;
+            right: 0;
+            font-size: 0.62rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            opacity: 0.8;
+        }
+
+        .bookend {
+            align-self: flex-end;
+            width: 30px;
+            height: 120px;
+            border-radius: 4px 4px 0 0;
+            background: linear-gradient(135deg, #9b59b6, var(--accent) 60%, #4a235a);
+        }
+
+        .hint {
+            margin-top: 16px;
+            text-align: center;
+            color: var(--ink-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ===== Open book ===== */
+        .reader {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 16px;
+            background: rgba(35, 25, 20, 0.72);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s;
+        }
+
+        .reader.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .stage {
+            perspective: 2200px;
+        }
+
+        .book {
+            --page-w: min(380px, 44vw);
+            --page-h: min(520px, 72vh);
+            position: relative;
+            width: calc(var(--page-w) * 2);
+            height: var(--page-h);
+            transform: scale(0.6) translateX(-25%);
+            transition: transform 0.6s ease;
+        }
+
+        .reader.open .book {
+            transform: translateX(-25%);
+        }
+
+        .reader.open .book.mid {
+            transform: none;
+        }
+
+        .reader.open .book.end {
+            transform: translateX(25%);
+        }
+
+        .leaf {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        .leaf.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        .face {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            padding: 36px 32px;
+            backface-visibility: hidden;
+            background: linear-gradient(90deg, var(--paper-edge), var(--paper) 8%);
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04), 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .face.back {
+            transform: rotateY(180deg);
+            background: linear-gradient(270deg, var(--paper-edge), var(--paper) 8%);
+        }
+
+        .face h2 {
+            margin: 0 0 12px;
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .face p,
+        .face li {
+            font-size: 0.92rem;
+        }
+
+        .face ul {
+            padding-left: 18px;
+        }
+
+        .chapter {
+            margin: 0 0 4px;
+            color: var(--accent);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .page-no {
+            position: absolute;
+            bottom: 14px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: var(--ink-muted);
+            font-size: 0.75rem;
+        }
+
+        /* Cover and back cover */
+        .face.cover {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px;
+            color: #fff;
+            background:
+                linear-gradient(90deg, rgba(0, 0, 0, 0.35), transparent 6%),
+                var(--c);
+            text-align: center;
+        }
+
+        .face.cover.back {
+            background:
+                linear-gradient(270deg, rgba(0, 0, 0, 0.35), transparent 6%),
+                var(--c);
+        }
+
+        .cover-frame {
+            padding: 32px 16px;
+            border: 2px solid rgba(255, 215, 140, 0.7);
+        }
+
+        .cover h2 {
+            font-size: 2rem;
+        }
+
+        .cover .type {
+            margin: 0;
+            font-size: 0.8rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+
+        .cover .author {
+            margin: 28px 0 0;
+            font-family: var(--serif);
+            font-style: italic;
+            opacity: 0.85;
+        }
+
+        .shot {
+            margin: 4px 0 16px;
+            border-radius: 4px;
+        }
+
+        .lead {
+            font-family: var(--serif);
+            font-size: 1.05rem !important;
+            font-style: italic;
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            margin: 16px 0 24px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .chips li {
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.15);
+            font-size: 0.78rem !important;
+        }
+
+        .cover a {
+            display: block;
+            margin: 8px auto 0;
+            padding: 8px 14px;
+            max-width: 220px;
+            border-radius: 4px;
+            background: #fff;
+            color: var(--ink);
+            font-weight: 600;
+            font-size: 0.88rem;
+            text-decoration: none;
+        }
+
+        .cover a.ghost {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            color: #fff;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .controls button {
+            padding: 10px 18px;
+            border: 0;
+            border-radius: 999px;
+            background: var(--paper);
+            color: var(--ink);
+            font: 600 0.9rem var(--sans);
+            cursor: pointer;
+        }
+
+        .controls button:disabled {
+            opacity: 0.4;
+            cursor: default;
+        }
+
+        .controls .close {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* ===== Phones: one page at a time ===== */
+        @media (max-width: 700px) {
+            .books {
+                gap: 4px;
+                padding: 0;
+            }
+
+            .spine {
+                width: calc(var(--w, 58px) * 0.78);
+                height: calc(var(--h, 260px) * 0.85);
+            }
+
+            .bookend {
+                display: none;
+            }
+
+            .book {
+                --page-w: min(360px, calc(100vw - 32px));
+                width: var(--page-w);
+            }
+
+            .reader.open .book,
+            .reader.open .book.mid,
+            .reader.open .book.end {
+                transform: none;
+            }
+
+            .leaf {
+                left: 0;
+                width: 100%;
+            }
+
+            .leaf.flipped {
+                opacity: 0;
+                transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.3s 0.5s;
+            }
+
+            .face {
+                padding: 28px 22px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .spine,
+            .book,
+            .leaf,
+            .reader {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="intro">
+    <h1>My bookshelf</h1>
+    <p>Every project I've built is a book. Pull one off the shelf and flip through the story: the problem, what I built and what I learned along the way.</p>
+    <a class="classic" href="index.html">Prefer the classic view? Go to the portfolio →</a>
+</header>
+
+<main class="shelf">
+    <div class="books" id="books"></div>
+    <div class="shelf-board"></div>
+    <p class="hint">Click a book to pull it out. Use the arrow keys or the buttons to turn the pages.</p>
+</main>
+
+<div class="reader" id="reader" role="dialog" aria-modal="true" aria-label="Open book">
+    <div class="stage">
+        <div class="book" id="book"></div>
+    </div>
+    <div class="controls">
+        <button type="button" id="prev">← Previous</button>
+        <button type="button" id="next">Next →</button>
+        <button type="button" class="close" id="close">Back to the shelf</button>
+    </div>
+</div>
+
+<script>
+    // Each project is one book. Text comes from the case study pages.
+    const projects = [
+        {
+            title: 'Client Portal',
+            type: 'Full-stack web app',
+            color: '#1f3a5f',
+            width: 64,
+            height: 270,
+            image: 'client-portal-responsive-devices-mockup.webp',
+            lead: 'A portal where a business asks clients for documents, clients upload them, and staff review each file.',
+            problem: 'Accountants, law firms and estate agents need documents from every new client. Usually these arrive by email. Files get lost in inboxes, staff keep chasing clients, and nobody can see at a glance what is still missing.',
+            built: [
+                '<strong>Client side:</strong> a checklist of requested documents, drag-and-drop uploads, and a clear approved or rejected status with the reason.',
+                '<strong>Staff side:</strong> a console with a progress bar for each client, new requests with due dates, and approve or reject with a note.'
+            ],
+            notesTitle: 'Decisions I made',
+            notes: [
+                'A custom staff console instead of the Django admin.',
+                'A daily command instead of a task queue.',
+                'Two versions of the demo: a working Django app and a polished front-end showcase.'
+            ],
+            stack: ['Python', 'Django', 'SQLite', 'Render'],
+            live: 'https://client-portal-demo-1.onrender.com',
+            page: 'case-studies/client-portal.html'
+        },
+        {
+            title: 'WorkCafe',
+            type: 'Full-stack web app',
+            color: '#2e5e4e',
+            width: 56,
+            height: 245,
+            image: 'workcafe-responsive-devices-mockup.webp',
+            lead: 'A café finder for people who work remotely: where is the good wifi, the power socket and the quiet corner?',
+            problem: 'Students, freelancers and remote workers need somewhere to work for a few hours, but they don\'t know which cafés nearby have decent wifi, sockets and a quiet corner. Good tips get shared in group chats and then forgotten.',
+            built: [
+                'A searchable café directory with a map, open to everyone without an account.',
+                'Each café shows its wifi speed, power sockets and how quiet it usually is.',
+                'Registered users can add, edit and delete their own cafés and save favourites.'
+            ],
+            notesTitle: 'Bugs I fixed',
+            notes: [
+                'The weather showed 290 degrees.',
+                'The map stopped loading on the live site.',
+                'Pages returned 404 on Heroku.',
+                'Cafés appeared in the wrong place on the map.'
+            ],
+            stack: ['Python', 'Django', 'PostgreSQL', 'Leaflet', 'Heroku'],
+            live: 'https://workcafe-app-4f1f130b7d49.herokuapp.com/',
+            code: 'https://github.com/Anasztazia12/milestone3',
+            page: 'case-studies/workcafe.html'
+        },
+        {
+            title: 'Pergola Calculator',
+            type: 'Client project',
+            color: '#7a3b2e',
+            width: 70,
+            height: 285,
+            image: 'pergola-responsive-devices-mockup.webp',
+            lead: 'A 3D configurator for a construction company: change the design and see the materials and the price straight away.',
+            problem: 'For every pergola job the company worked out the concrete, timber and screw quantities by hand in spreadsheets. It was slow, and a mistake in the numbers meant ordering the wrong materials.',
+            built: [
+                'The customer sets the size, roof pitch, wood type and other options.',
+                'The 3D model, the full material list and the price update straight away.',
+                'The bill of materials can be downloaded.'
+            ],
+            notesTitle: 'Challenges and fixes',
+            notes: [
+                'Keeping the pricing formulas private, server-side in Cloud Functions.',
+                'Moving off PHP hosting.',
+                'Handling secrets and local testing.'
+            ],
+            stack: ['JavaScript', 'Babylon.js', 'Firebase'],
+            live: 'https://pergolakalkulator.com/calculator',
+            page: 'case-studies/pergola-calculator.html'
+        },
+        {
+            title: 'Budgeting App',
+            type: 'Web app',
+            color: '#8a6d1f',
+            width: 52,
+            height: 235,
+            image: 'budgeting-app.webp',
+            lead: 'A budgeting app that also answers "what happens if…?" before you make a money decision.',
+            problem: 'Most budgeting tools only show what you have already spent. People also want to try out a decision first: what if I pay this loan off early, or what if my rent goes up?',
+            built: [
+                '<strong>Budget:</strong> income and expenses with totals and categories.',
+                '<strong>Forecast:</strong> what-if scenarios you can save.',
+                '<strong>Debt manager:</strong> loans and early payoff, linked to the forecast.',
+                '<strong>Monthly summary:</strong> pie and bar charts.'
+            ],
+            notesTitle: 'Challenges and fixes',
+            notes: [
+                'Keeping account data and the database in step.',
+                'Guest mode without mixing data.',
+                'Amounts typed as text.'
+            ],
+            stack: ['JavaScript', 'Firebase', 'Chart.js', 'Jest'],
+            live: 'https://anasztazia12.github.io/budgeting',
+            code: 'https://github.com/Anasztazia12/budgeting',
+            page: 'case-studies/budgeting-app.html'
+        },
+        {
+            title: 'Northline Gas & Heating',
+            type: 'Website and automation',
+            color: '#5b2c6f',
+            width: 74,
+            height: 275,
+            image: 'plumber-responsive-devices-mockup.webp',
+            lead: 'A website for a heating engineer, with a quote form that sorts every request in seconds and flags emergencies straight away.',
+            problem: 'A one-person heating engineer can\'t read emails while working on a boiler. Urgent jobs, like no heating or a smell of gas, sit unread between routine requests, and the customer rings someone else.',
+            built: [
+                '<strong>The website:</strong> hours, emergency call-outs and contact details on the first screen, then a "Request a quote" button.',
+                '<strong>The automation:</strong> a Make scenario where AI sorts each request by job type and urgency, saves it to the job list and alerts the engineer about urgent jobs straight away.'
+            ],
+            notesTitle: 'Decisions I made',
+            notes: [
+                'A keyword safety net for emergencies.',
+                'When unsure, choose urgent.',
+                'Nothing gets lost.',
+                'The engineer decides.'
+            ],
+            stack: ['HTML', 'CSS', 'Firebase', 'Make', 'OpenAI', 'Google Sheets'],
+            live: 'https://northline-gas.web.app/',
+            page: 'case-studies/northline-automation.html'
+        },
+        {
+            title: 'Anne Hair Studio',
+            type: 'Website with booking',
+            color: '#9c4f6a',
+            width: 58,
+            height: 255,
+            image: 'hair-responsive-devices-mockup.webp',
+            lead: 'A website for a one-person hair salon, where clients can see the prices and opening hours and pick a free appointment.',
+            problem: 'A stylist who works alone has no time to answer the same questions all day: what do you offer, what does it cost, when are you open, and how do I book?',
+            built: [
+                'A booking calendar: pick a day, then a free time, then enter your details.',
+                'A full price list and opening hours, with today highlighted.',
+                'On phones, the call and booking buttons stay at the bottom of the screen.'
+            ],
+            notesTitle: 'Decisions I made',
+            notes: [
+                'Weeks start on Monday.',
+                'No times in the past.'
+            ],
+            stack: ['HTML', 'CSS', 'JavaScript', 'Firebase Hosting'],
+            live: 'https://anne-hair-studio.web.app/',
+            page: 'case-studies/anne-hair-studio.html'
+        }
+    ];
+
+    const booksEl = document.getElementById('books');
+    const reader = document.getElementById('reader');
+    const bookEl = document.getElementById('book');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const closeBtn = document.getElementById('close');
+    const phone = window.matchMedia('(max-width: 700px)');
+
+    let leaves = [];
+    let current = 0;
+    let activeSpine = null;
+
+    // The six pages of a book, in reading order
+    function pagesFor(p) {
+        const list = items => items.map(i => `<li>${i}</li>`).join('');
+        const links = [
+            `<a href="${p.live}" target="_blank" rel="noopener">Live demo</a>`,
+            p.code ? `<a class="ghost" href="${p.code}" target="_blank" rel="noopener">Code on GitHub</a>` : '',
+            `<a class="ghost" href="${p.page}">Full case study</a>`
+        ].join('');
+
+        return [
+            { cover: true, html: `<div class="cover-frame"><p class="type">${p.type}</p><h2>${p.title}</h2><p class="author">by Anasztázia Karalyos-Kecskés</p></div>` },
+            { html: `<img class="shot" src="assets/images/${p.image}" alt="${p.title} on several devices"><p class="lead">${p.lead}</p>` },
+            { html: `<p class="chapter">Chapter 1</p><h2>The problem</h2><p>${p.problem}</p>` },
+            { html: `<p class="chapter">Chapter 2</p><h2>What I built</h2><ul>${list(p.built)}</ul>` },
+            { html: `<p class="chapter">Chapter 3</p><h2>${p.notesTitle}</h2><ul>${list(p.notes)}</ul>` },
+            { cover: true, html: `<p class="type">Built with</p><ul class="chips">${list(p.stack)}</ul>${links}` }
+        ];
+    }
+
+    function face(page, side, number, color) {
+        if (!page) {
+            return `<div class="face ${side}"></div>`;
+        }
+        const cls = page.cover ? 'face cover' : 'face';
+        const no = page.cover ? '' : `<span class="page-no">${number}</span>`;
+        return `<div class="${cls} ${side}" style="--c:${color}">${page.html}${no}</div>`;
+    }
+
+    // Spread view: two pages per leaf. Phone view: one page per leaf.
+    function buildBook(p) {
+        const pages = pagesFor(p);
+        const perLeaf = phone.matches ? 1 : 2;
+        let html = '';
+
+        for (let i = 0; i < pages.length; i += perLeaf) {
+            const back = perLeaf === 2 ? pages[i + 1] : null;
+            html += `<div class="leaf">${face(pages[i], 'front', i, p.color)}${face(back, 'back', i + 1, p.color)}</div>`;
+        }
+
+        bookEl.innerHTML = html;
+        leaves = [...bookEl.querySelectorAll('.leaf')];
+        current = 0;
+        update();
+    }
+
+    function update() {
+        leaves.forEach((leaf, i) => {
+            const flipped = i < current;
+            leaf.classList.toggle('flipped', flipped);
+            leaf.style.zIndex = flipped ? i : leaves.length - i;
+        });
+
+        bookEl.classList.toggle('mid', current > 0 && current < leaves.length);
+        bookEl.classList.toggle('end', current === leaves.length);
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === leaves.length - (phone.matches ? 1 : 0);
+    }
+
+    function turn(step) {
+        const target = current + step;
+        const last = leaves.length - (phone.matches ? 1 : 0);
+        if (target < 0 || target > last) {
+            return;
+        }
+        // Keep the turning leaf on top while it moves
+        const leaf = leaves[step > 0 ? current : target];
+        leaf.style.zIndex = leaves.length + 1;
+        current = target;
+        setTimeout(update, 450);
+        leaf.classList.toggle('flipped', step > 0);
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === last;
+    }
+
+    function openBook(p, spine) {
+        activeSpine = spine;
+        spine.classList.add('pulled');
+        buildBook(p);
+        setTimeout(() => {
+            reader.classList.add('open');
+            nextBtn.focus();
+        }, 350);
+    }
+
+    function closeBook() {
+        reader.classList.remove('open');
+        if (activeSpine) {
+            activeSpine.classList.remove('pulled');
+            activeSpine.focus();
+            activeSpine = null;
+        }
+    }
+
+    projects.forEach(p => {
+        const spine = document.createElement('button');
+        spine.type = 'button';
+        spine.className = 'spine';
+        spine.style.cssText = `--c:${p.color};--w:${p.width}px;--h:${p.height}px`;
+        spine.setAttribute('aria-label', `Open the ${p.title} book`);
+        spine.innerHTML = `<span class="spine-title">${p.title}</span>`;
+        spine.addEventListener('click', () => openBook(p, spine));
+        booksEl.appendChild(spine);
+    });
+
+    const bookend = document.createElement('div');
+    bookend.className = 'bookend';
+    bookend.setAttribute('aria-hidden', 'true');
+    booksEl.appendChild(bookend);
+
+    prevBtn.addEventListener('click', () => turn(-1));
+    nextBtn.addEventListener('click', () => turn(1));
+    closeBtn.addEventListener('click', closeBook);
+    reader.addEventListener('click', e => {
+        if (e.target === reader) {
+            closeBook();
+        }
+    });
+
+    document.addEventListener('keydown', e => {
+        if (!reader.classList.contains('open')) {
+            return;
+        }
+        if (e.key === 'ArrowRight') turn(1);
+        if (e.key === 'ArrowLeft') turn(-1);
+        if (e.key === 'Escape') closeBook();
+    });
+</script>
+</body>
+</html>
